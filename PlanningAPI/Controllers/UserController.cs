@@ -102,7 +102,7 @@ namespace PlanningAPI.Controllers
             });
         }
 
-        [HttpPost("loginV1AyushSingh")]
+        [HttpPost("loginV1")]
         public async Task<IActionResult> LoginV1([FromBody] LoginDto dto)
         {
             var token = await _repository.LoginAsync(dto);
