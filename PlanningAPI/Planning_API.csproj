@@ -56,7 +56,7 @@
         <PackageReference Include="Swashbuckle.AspNetCore" Version="8.1.1" />
         <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.12.0" />
     </ItemGroup>
-   <Target Name="CopyFrontendBuild" AfterTargets="Build">
+   <Target Name="CopyFrontendBuild" AfterTargets="Production">
 
   <!-- Install frontend dependencies -->
   <Exec Command="npm install" WorkingDirectory="../frontend" />
