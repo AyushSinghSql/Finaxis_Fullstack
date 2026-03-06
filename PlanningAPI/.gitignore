@@ -41,3 +41,8 @@ typings
 bin
 obj
 
+.vs/
+obj/
+bin/
+node_modules/
+
