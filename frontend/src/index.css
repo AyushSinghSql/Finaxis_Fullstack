@@ -1,0 +1,511 @@
+@import "tailwindcss";
+
+/* *{
+  font-family: Verdana, Geneva, Tahoma, sans-serif ;
+} */
+* {
+  font-family: Geist Sans, system-ui, sans-serif
+}
+
+@layer components {
+  .bg-gradient {
+    @apply bg-gradient-to-b from-gray-900 to-blue-900
+  }
+
+  .border-overall {
+    @apply rounded-xl shadow-lg border border-gray-400
+  }
+
+  .input-label {
+    @apply font-semibold text-xs sm:text-sm whitespace-nowrap
+  }
+
+  .label-input-div {
+    @apply flex items-center gap-2 w-full sm:w-auto justify-between
+  }
+
+  .input-style {
+    @apply border outline-none border-gray-300 rounded px-2 py-1.5 text-xs sm:text-sm bg-white shadow-inner;
+    width: 60%
+  }
+
+  /* menu button */
+  .btn {
+    @apply px-3 py-1.5 rounded-md text-xs font-medium transition-colors duration-200 cursor-pointer;
+  }
+
+  .btn-active {
+    @apply text-white shadow-sm;
+  }
+
+  .btn-inactive {
+    @apply bg-gray-200 text-gray-800 hover:bg-gray-300;
+  }
+
+  /* action buttons */
+  .btn1 {
+    @apply rounded-full px-4 py-1.5 text-xs font-medium text-white transition-colors duration-200 disabled:cursor-not-allowed disabled:opacity-40;
+  }
+
+  /* 
+  .back-btn {
+    @apply rounded-full px-4 py-1.5 text-xs font-medium text-white transition-colors duration-200 disabled: cursor-not-allowed disabled:opacity-40 bg-slate-900 flex items-center gap-1;
+  } */
+
+  /* Primary solid buttons (New Budget / Blank / EAC / Calc / Detail, etc.) */
+  .btn-blue {
+    /* match "New Budget" style: bg-slate-900 */
+    @apply bg-slate-900 text-white;
+  }
+
+  /* Secondary solid state (Submit/Approve/Conclude toggled, filters, etc.) */
+  .btn-orange {
+    /* use sky/indigo/amber-like highlight */
+    @apply bg-sky-600 text-white;
+  }
+
+  /* Destructive (Delete) */
+  .btn-red {
+    @apply bg-red-600 text-white;
+  }
+
+  /* Positive / special (New Business) */
+  .btn-green {
+    @apply bg-emerald-600 text-white;
+  }
+
+  /* Disabled */
+  .btn-disabled {
+    @apply bg-slate-300 text-slate-500;
+  }
+}
+
+.btn-disabled {
+  @apply bg-gray-300 text-gray-500 cursor-not-allowed;
+}
+
+
+@layer components {
+
+  /* Menu buttons */
+  .btn {
+    @apply px-3 py-1.5 rounded-md text-xs font-medium transition-colors duration-200 cursor-pointer border border-gray-300 bg-white text-gray-800 shadow-sm hover:bg-gray-100 focus:ring-2 focus:ring-blue-400 focus:outline-none;
+  }
+
+  .btn-active {
+    @apply bg-blue-600 text-white shadow-sm border-blue-600 hover:bg-blue-700 focus:ring-blue-500;
+  }
+
+  .btn-inactive {
+    @apply bg-gray-200 text-gray-800 hover:bg-gray-300 border-gray-300;
+  }
+
+  /* Action buttons */
+
+  .btn-click {
+    @apply rounded-lg px-2 py-2 mt-1 mb-1 text-white text-xs font-semibold cursor-pointer disabled:opacity-40 transition-colors;
+    background-color: #17414d;
+  }
+
+  .btn1 {
+    @apply rounded-full px-4 py-1.5 text-xs font-medium text-white cursor-pointer transition-colors duration-200 disabled:cursor-not-allowed disabled:opacity-40;
+  }
+
+  /* Primary solid buttons (New Budget / Blank / EAC / Calc / Detail, etc.) */
+  .btn-blue {
+    /* match "New Budget" style: bg-slate-900 */
+    @apply text-white;
+    background-color: #17414d;
+
+  }
+
+  /* Secondary solid state (Submit/Approve/Conclude toggled, filters, etc.) */
+  .btn-orange {
+    /* use sky/indigo/amber-like highlight */
+    @apply bg-sky-600 text-white;
+  }
+
+  /* Destructive (Delete) */
+  .btn-red {
+    @apply bg-red-600 text-white;
+  }
+
+  /* Positive / special (New Business) */
+  .btn-green {
+    @apply bg-emerald-600 text-white;
+  }
+
+  /* Disabled */
+  .btn-disabled {
+    @apply bg-slate-300 text-slate-500;
+  }
+}
+
+.blue-btn-common {
+  @apply bg-blue-400 hover:bg-blue-500
+}
+
+/* Disabled button */
+.btn-disabled {
+  @apply bg-gray-300 text-gray-500 border-gray-300 cursor-not-allowed shadow-none;
+}
+
+.table {
+  @apply min-w-full table-auto divide-y divide-neutral-200;
+}
+
+.thead {
+  @apply bg-neutral-100 sticky top-0 ;
+}
+
+.thead-rev {
+  @apply bg-[#e5f3fb] text-sm px-2 py-1 text-gray-900 text-center;
+}
+
+.th-thead {
+  @apply px-2 py-1 whitespace-nowrap border-r border-b border-gray-300 text-xs font-semibold bg-[#e5f3fb] text-black capitalize tracking-wide text-center;
+}
+
+.th-thead-blue {
+  @apply px-2 py-1 text-xs whitespace-nowrap border-r border-b border-gray-300 font-semibold bg-[#e5f3fb] text-black capitalize tracking-wide text-center;
+}
+
+.tbody-td-fun {
+  @apply px-2 py-1 text-xs font-normal border-r border-b border-gray-300 text-gray-900 text-center;
+}
+
+.tbody {
+  @apply bg-white divide-y divide-neutral-200;
+}
+
+.tbody-td {
+  @apply px-2 py-1 text-xs border-r border-b border-gray-300 text-black text-center;
+}
+
+/* Total row (blue highlight like screenshot) */
+.tfoot {
+  @apply bg-sky-100 font-semibold text-neutral-800;
+}
+
+
+.border-line {
+  @apply rounded shadow-lg border border-gray-200;
+}
+
+.blue-text {
+  @apply text-black;
+}
+
+.table-input {
+  @apply border border-gray-300 rounded px-1 py-0.5 text-xs outline-none;
+}
+
+
+:root {
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: rgb(245, 245, 245);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --radius: 0.625rem;
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+
+.sticky-tfoot {
+  position: sticky;
+  bottom: 0;
+  background-color: #f3f4f6;
+  /* close to your header gray */
+  z-index: 3;
+}
+
+.synchronized-tables-outer {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.synchronized-tables-container {
+  display: flex;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  background: #fff;
+}
+
+.synchronized-table-scroll {
+  overflow-x: auto;
+  min-width: 0;
+  flex: 1 1 0;
+}
+
+.sticky-thead th {
+  position: sticky !important;
+  top: 0 !important;
+  background: #f0f7ff !important;
+  z-index: 2 !important;
+  /* border-bottom: 1px solid #000 !important; */
+}
+
+.synchronized-tables-container table {
+  margin-bottom: 0;
+}
+
+/* Only horizontal scrollbar is styled; vertical remains hidden */
+.hide-scrollbar::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+  /* Controls horizontal scrollbar thickness */
+}
+
+/* Hide vertical scrollbar */
+.hide-scrollbar::-webkit-scrollbar:vertical {
+  width: 0 !important;
+  background: transparent !important;
+}
+
+.hide-scrollbar::-webkit-scrollbar-thumb:vertical {
+  background: transparent !important;
+}
+
+/* White background for track */
+.hide-scrollbar::-webkit-scrollbar-track:horizontal {
+  background: #fff !important;
+  border-radius: 6px !important;
+}
+
+/* Thumb: gray, round */
+.hide-scrollbar::-webkit-scrollbar-thumb:horizontal {
+  background: #878787ff !important;
+  border-radius: 6px !important;
+  min-width: 24px !important;
+  border: 2px solid #fff !important;
+}
+
+.hide-scrollbar::-webkit-scrollbar-thumb:horizontal:hover {
+  background: #555 !important;
+  /* Change this color as desired */
+}
+
+/* Arrow buttons: only at start and end, with one arrow each, flush with track */
+.hide-scrollbar::-webkit-scrollbar-button:horizontal:start {
+  /* width: 16px;
+  height: 10px; */
+  background: #fff url("data:image/svg+xml,%3Csvg width='8' height='12' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolygon points='7,2 2,6 7,10' fill='%238c8c8c'/%3E%3C/svg%3E") no-repeat center center !important;
+  background-size: 12px 16px !important;
+  border-radius: 6px 0 0 6px !important;
+  border-right: none !important;
+}
+
+.hide-scrollbar::-webkit-scrollbar-button:horizontal:end {
+  /* width: 16px;
+  height: 10px; */
+  background: #fff url("data:image/svg+xml,%3Csvg width='8' height='12' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolygon points='1,2 6,6 1,10' fill='%238c8c8c'/%3E%3C/svg%3E") no-repeat center center !important;
+  background-size: 12px 16px !important;
+  border-radius: 0px 6px 6px 0px !important;
+  border-left: none !important;
+}
+
+/* Hide double/extra buttons (middle area and verticals) */
+.hide-scrollbar::-webkit-scrollbar-button:horizontal:decrement:single,
+.hide-scrollbar::-webkit-scrollbar-button:horizontal:increment:single,
+.hide-scrollbar::-webkit-scrollbar-button:vertical {
+  display: none !important;
+}
+
+/* Corner */
+.hide-scrollbar::-webkit-scrollbar-corner {
+  background: #fff;
+}
+
+/* ProjectPlanTable specific styles */
+.project-plan-table-container {
+  @apply w-full border border-gray-300 rounded-lg bg-white overflow-hidden;
+}
+
+.project-plan-table-scroll {
+  @apply overflow-auto;
+  max-height: 280px;
+  min-height: 280px;
+}
+
+.project-plan-table {
+  @apply w-full table-fixed text-xs text-left border-collapse;
+}
+
+.project-plan-table th {
+  @apply p-1 border border-gray-300 font-normal text-center bg-gray-100 sticky top-0 z-10;
+}
+
+.project-plan-table td {
+  @apply p-1 border border-gray-300 font-normal;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Column width constraints */
+.project-plan-table th:nth-child(1),
+.project-plan-table td:nth-child(1) {
+  width: 60px;
+  min-width: 60px;
+  max-width: 60px;
+}
+
+.project-plan-table th:nth-child(2),
+.project-plan-table td:nth-child(2) {
+  width: 120px;
+  min-width: 100px;
+  max-width: 150px;
+}
+
+.project-plan-table th:nth-child(3),
+.project-plan-table td:nth-child(3) {
+  width: 150px;
+  min-width: 120px;
+  max-width: 180px;
+}
+
+/* Status column styling */
+.project-plan-table td.status-submitted {
+  @apply bg-yellow-100 text-black font-bold whitespace-nowrap text-center;
+}
+
+.project-plan-table td.status-progress {
+  @apply bg-red-100 text-black font-bold whitespace-nowrap text-center;
+}
+
+.project-plan-table td.status-approved {
+  @apply bg-green-100 text-black font-bold whitespace-nowrap text-center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .project-plan-table {
+    @apply text-xs;
+  }
+
+  .project-plan-table th,
+  .project-plan-table td {
+    @apply p-0.5;
+  }
+}
+
+@media (max-width: 768px) {
+
+  .project-plan-table th:nth-child(2),
+  .project-plan-table td:nth-child(2) {
+    width: 100px;
+    min-width: 80px;
+    max-width: 120px;
+  }
+
+  .project-plan-table th:nth-child(3),
+  .project-plan-table td:nth-child(3) {
+    width: 120px;
+    min-width: 100px;
+    max-width: 140px;
+  }
+}
+
+.grid-hrs-cost {
+  display: grid;
+  grid-template-columns: 1fr 10px 1fr;
+  align-items: center;
+}
+
+.date-input-clean::-webkit-datetime-edit-text,
+.date-input-clean::-webkit-datetime-edit-month-field,
+.date-input-clean::-webkit-datetime-edit-day-field,
+.date-input-clean::-webkit-datetime-edit-year-field {
+  opacity: 0;
+}
+
+.date-input-clean:focus::-webkit-datetime-edit-text,
+.date-input-clean:focus::-webkit-datetime-edit-month-field,
+.date-input-clean:focus::-webkit-datetime-edit-day-field,
+.date-input-clean:focus::-webkit-datetime-edit-year-field {
+  opacity: 1;
+}
+
+/* Scroll bar */
+
+.middle-scrollbar::-webkit-scrollbar {
+  width: 1px;
+  height: 12px;
+}
+
+.middle-scrollbar::-webkit-scrollbar-track {
+  background: white;
+}
+
+.middle-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #828282;
+  border-radius: 6px;
+  border: 2px solid white;
+}
+
+.middle-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: #b5b5b5;
+}
+
+.right-scrollbar::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+.right-scrollbar::-webkit-scrollbar-track {
+  background: white;
+}
+
+.right-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #828282;
+  border-radius: 6px;
+  border: 2px solid white;
+}
+
+.right-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: #b5b5b5;
+}
+
+@keyframes premiumPopup {
+  0% {
+    opacity: 0;
+    transform: scale(0.92) translateY(10px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.animate-premium-popup {
+  animation: premiumPopup 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
