@@ -1,37 +1,32 @@
-# --- STAGE 1: Build the React Frontend ---
-FROM node:20 AS frontend-build
-WORKDIR /src
-# Copy frontend files
-COPY frontend/package*.json ./
-RUN npm install
-COPY frontend/ ./
-RUN npm run build
-
-# --- STAGE 2: Build the .NET Backend ---
+# 1. Build Stage (Needs both .NET SDK and Node.js)
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
+
+# --- REQUIRED: Install Node.js so 'npm install' can run inside the container ---
+RUN apt-get update && apt-get install -y curl && \
+    curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
+    apt-get install -y nodejs
+
 WORKDIR /src
 
-# Copy the project file and restore
-COPY ["PlanningAPI/Planning_API.csproj", "PlanningAPI/"]
+# Copy EVERYTHING (Both frontend and backend folders) 
+# The .csproj needs to see the ../frontend folder to build it
+COPY . .
+
+# Restore dependencies
 RUN dotnet restore "PlanningAPI/Planning_API.csproj"
 
-# Copy the backend source code
-COPY PlanningAPI/ ./PlanningAPI/
-
-# IMPORTANT: Copy the React build from Stage 1 into the Backend's wwwroot
-COPY --from=frontend-build /src/dist ./PlanningAPI/wwwroot
-
-# Publish the backend (this now includes the fresh frontend files)
+# Build and Publish
+# This will trigger your <Target Name="BuildFrontend"> because Docker uses Release mode
 WORKDIR "/src/PlanningAPI"
 RUN dotnet publish "Planning_API.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
-# --- STAGE 3: Final Runtime ---
+# 2. Final Runtime Stage
 FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS final
 WORKDIR /app
 EXPOSE 8080
 
 USER root
-# Install your native dependencies
+# Install your specific native dependencies
 RUN apt-get update && apt-get install -y \
     libc6-dev \
     libgdiplus \
@@ -46,7 +41,7 @@ RUN apt-get update && apt-get install -y \
 
 RUN mkdir -p /tmp/uploads && chmod -R 777 /tmp/uploads
 
-# Copy the published app from the build stage
+# Copy the published app (which now contains the new React files in wwwroot)
 COPY --from=build /app/publish .
 
 ENV ASPNETCORE_URLS=http://+:8080
