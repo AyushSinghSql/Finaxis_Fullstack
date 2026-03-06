@@ -5,7 +5,7 @@ import { backendUrl } from "./config";
 import { toast } from "react-toastify";
 import { MdGroups2 } from "react-icons/md";
 
-const ManageGroups = () => {
+const ManageGroups = ({canEdit}) => {
   // Global lists
    
   const [groups, setGroups] = useState([]);
@@ -241,6 +241,7 @@ const ManageGroups = () => {
     return (
       <>
         {/* Create / Edit Group */}
+        {canEdit("manageGroups") &&
         <div className="mb-1">
           <h3 className="text-sm font-semibold text-gray-900 mb-3">
             {editingGroupId ? "Edit Group" : "Create Group"}
@@ -280,6 +281,7 @@ const ManageGroups = () => {
               />
             </div>
           </div>
+          
 
           {/* <div className="flex justify-end gap-2 mt-4">
             {editingGroupId && (
@@ -307,9 +309,10 @@ const ManageGroups = () => {
             </button>
           </div> */}
         </div>
+  }
 
         {/* Existing Groups */}
-        <div className="mt-10">
+        <div className={`${canEdit("manageGroups") ? 'mt-10' : ''}`}>
           <div className="flex justify-between items-center mb-3">
             <div className="flex gap-2 items-center">
               <h3 className="input-label">Existing Groups</h3>
@@ -322,7 +325,7 @@ const ManageGroups = () => {
               />
             </div>
             <div className=" flex items-center gap-x-2">
-              <button
+              {canEdit("manageGroups") && <button
                 type="button"
                 onClick={handleCreateOrUpdateGroup}
                 className="btn1 btn-blue disabled:opacity-60"
@@ -333,8 +336,8 @@ const ManageGroups = () => {
                   : editingGroupId
                     ? "Update Group"
                     : "Create Group"}
-              </button>
-              {editingGroupId && (
+              </button>}
+              {editingGroupId && canEdit("manageGroups") && (
                 <button
                   type="button"
                   onClick={resetGroupForm}
@@ -344,7 +347,7 @@ const ManageGroups = () => {
                   Cancel
                 </button>
               )}
-              <button
+              {canEdit("manageGroups") && <button
                 type="button"
                 onClick={handleBulkDeleteGroups}
                 className={`btn1 btn-red disabled:opacity-50 ${
@@ -357,7 +360,7 @@ const ManageGroups = () => {
                 }
               >
                 Delete ({selectedGroupIdsForDelete.length})
-              </button>
+              </button>}
             </div>
           </div>
 
@@ -365,14 +368,14 @@ const ManageGroups = () => {
             <table className="w-full text-sm">
               <thead className="thead"> 
                 <tr className="bg-white border-b border-gray-300">
-                  <th className="th-thead bg-[#e5f3fb] text-black text-xs w-10">
+                  {canEdit("manageGroups") && <th className="th-thead bg-[#e5f3fb] text-black text-xs w-10">
                     <input
                       type="checkbox"
                       className="w-3 h-3"
                       checked={allSelected}
                       onChange={() => toggleSelectAllGroups(filteredGroups)}
                     />
-                  </th>
+                  </th>}
                   <th className="th-thead bg-[#e5f3fb] text-black text-xs">
                     Code
                   </th>
@@ -382,9 +385,9 @@ const ManageGroups = () => {
                   <th className="th-thead bg-[#e5f3fb] text-black text-xs">
                     Description
                   </th>
-                  <th className="th-thead bg-[#e5f3fb] text-black text-xs text-right">
+                  {canEdit("manageGroups") && <th className="th-thead bg-[#e5f3fb] text-black text-xs text-right">
                     Actions
-                  </th>
+                  </th>}
                 </tr>
               </thead>
 
@@ -421,7 +424,7 @@ const ManageGroups = () => {
                         key={g.orgGroupId}
                         className="hover:bg-gray-50 border-b border-gray-300"
                       >
-                        <td className="tbody-td">
+                        {canEdit("manageGroups") && <td className="tbody-td">
                           <input
                             type="checkbox"
                             className="w-3 h-3"
@@ -430,11 +433,11 @@ const ManageGroups = () => {
                               toggleSelectedGroupForDelete(g.orgGroupId)
                             }
                           />
-                        </td>
+                        </td>}
                         <td className="tbody-td">{g.orgGroupCode}</td>
                         <td className="tbody-td">{g.orgGroupName}</td>
                         <td className="tbody-td">{g.description}</td>
-                        <td className="tbody-td text-right">
+                        {canEdit("manageGroups") && <td className="tbody-td text-right">
                           <button
                             type="button"
                             onClick={() => startEditGroup(g)}
@@ -442,7 +445,7 @@ const ManageGroups = () => {
                           >
                             Edit
                           </button>
-                        </td>
+                        </td>}
                       </tr>
                     );
                   })

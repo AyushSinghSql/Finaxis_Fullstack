@@ -128,32 +128,32 @@ function App() {
 
   const user = JSON.parse(localStorage.getItem("currentUser"));
 
-  useEffect(() => {
+  const loadConfig = async () => {
     if (!user?.userId) return; // wait until user exists
-
-    const loadConfig = async () => {
-      
-      try {
-        const res = await axios.get(
-          `${backendUrl}/Orgnization/${user.userId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${JSON.parse(localStorage.getItem("currentUser") || "{}").token ?? ""}`,
-            },
+    
+    try {
+      const res = await axios.get(
+        `${backendUrl}/Orgnization/${user.userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${JSON.parse(localStorage.getItem("currentUser") || "{}").token ?? ""}`,
           },
-        );
+        },
+      );
 
-        const data = res.data || {};
-        const mergedVisibility = {
-          ...(data.screens || {}),
-          ...(data.fields || {}),
-        };
+      const data = res.data || {};
+      const mergedVisibility = {
+        ...(data.screens || {}),
+        ...(data.fields || {}),
+      };
 
-        setVisibility(mergedVisibility);
-      } catch (e) {
-        setVisibility({});
-      }
-    };
+      setVisibility(mergedVisibility);
+    } catch (e) {
+      setVisibility({});
+    }
+  };
+  useEffect(() => {
+    
 
     loadConfig();
   }, [user?.userId]);
@@ -174,7 +174,7 @@ function App() {
           <Route path="/login" element={<Login />} />
 
           {/* Dashboard Layout and its Children */}
-          <Route path="/dashboard" element={<Dashboard canView={canView} canEdit={canEdit} />}>
+          <Route path="/dashboard" element={<Dashboard loadConfig={loadConfig} canView={canView} canEdit={canEdit} />}>
             {/* Default Index View */}
             <Route index element={
                 <div className="flex items-center justify-center min-h-[80vh]">
@@ -192,25 +192,25 @@ function App() {
             <Route path="mass-utility" element={<div className="mt-12 ml-2"><MassUtilityProject /></div>} />
             <Route path="pricing" element={<div className="mt-12 ml-2"><Pricing /></div>} />
             <Route path="import-utility" element={<div className="mt-12 ml-2"><Import /></div>} />
-            <Route path="projectmapping" element={<UserOrgProjectMapping />} />
-            <Route path="new-business" element={<div className="mt-10"><NewBusinessComponent /></div>} />
-            <Route path="create-project-budget" element={<div className="mt-12 ml-2"><CreateProjectBudget /></div>} />
+            <Route path="projectmapping" element={<UserOrgProjectMapping canEdit={canEdit} />} />
+            <Route path="new-business" element={<div className="mt-10"><NewBusinessComponent canEdit={canEdit} /></div>} />
+            <Route path="create-project-budget" element={<div className="mt-12 ml-2"><CreateProjectBudget canEdit={canEdit} /></div>} />
             <Route path="import-opportunity" element={<div className="mt-12 ml-2"><Opportunities /></div>} />
             <Route path="monthly-forecast" element={<div className="mt-12 ml-2"><AnalysisByPeriodContent /></div>} />
              <Route path="financial-report" element={<div className="mt-12 ml-2"><FinancialReport /></div>} />
 
             {/* Admin Only Routes */}
-            <Route path="manage-groups" element={<div className="mt-12 ml-2"><ManageGroups /></div>} />
-            <Route path="manage-users" element={<div className="mt-12 ml-2"><ManageUser /></div>} />
-            <Route path="pool-rate-tabs" element={<div className="mt-12"><PoolRateTabs /></div>} />
-            <Route path="role-rights" element={<div className="mt-12 ml-2"><ConfigureField /></div>} />
+            <Route path="manage-groups" element={<div className="mt-12 ml-2"><ManageGroups canEdit={canEdit} /></div>} />
+            <Route path="manage-users" element={<div className="mt-12 ml-2"><ManageUser canEdit={canEdit} /></div>} />
+            <Route path="pool-rate-tabs" element={<div className="mt-12"><PoolRateTabs canEdit={canEdit} /></div>} />
+            <Route path="role-rights" element={<div className="mt-12 ml-2"><ConfigureField loadConfigMain={loadConfig}/></div>} />
             <Route path="override-settings" element={<div className="mt-12 ml-2"><OverrideSettings /></div>} />
             <Route path="pool-configuration" element={<div className="mt-12 ml-2"><PoolConfigurationTable /></div>} />
             <Route path="template-pool-mapping" element={<div className="mt-12 ml-2"><TemplatePoolMapping /></div>} />
             <Route path="template" element={<div className="mt-12 ml-2"><Template /></div>} />
             <Route path="ceiling-configuration" element={<div className="mt-12"><CeilingConfiguration /></div>} />
             <Route path="analog-rate" element={<div className="mt-12"><AnalogRate /></div>} />
-            <Route path="global-configuration" element={<div className="mt-12 ml-2"><GlobalConfiguration /></div>} />
+            <Route path="global-configuration" element={<div className="mt-12 ml-2"><GlobalConfiguration canEdit={canEdit} /></div>} />
             <Route path="prospective-id-setup" element={<div className="mt-10"><ProspectiveIdSetup /></div>} />
             <Route path="display-settings" element={<div className="mt-12 ml-2"><DisplaySettings /></div>} />
             <Route path="annual-holidays" element={<div className="mt-4"><AnnualHolidays /></div>} />

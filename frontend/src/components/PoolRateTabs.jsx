@@ -192,7 +192,7 @@ import { MdRateReview } from "react-icons/md";
 import axios from "axios";
 import { backendUrl } from "./config";
 
-const PoolRateTabs = () => {
+const PoolRateTabs = ({canEdit}) => {
   const [activeTab, setActiveTab] = useState("Template");
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
@@ -297,13 +297,13 @@ const PoolRateTabs = () => {
     // 1. Check for Static Tabs
     switch (activeTab) {
       case "Rate Configure":
-        return <PoolRate />;
+        return <PoolRate canEdit={canEdit} />;
       case "Rate":
-        return <Rates />;
+        return <Rates canEdit={canEdit} />;
       case "Template":
-        return <TemplateManager />;
+        return <TemplateManager canEdit={canEdit} />;
       case "Base Setup":
-        return <PoolConfigurationTable />;
+        return <PoolConfigurationTable canEdit={canEdit} />;
       default:
         
         // 2. Check if the active tab is one of the dynamic pools fetched from API

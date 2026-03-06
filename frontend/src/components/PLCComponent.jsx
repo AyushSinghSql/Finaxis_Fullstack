@@ -2746,7 +2746,7 @@ const PLCComponent = forwardRef(
         className=" rounded-xl border m-2 border-gray-200 p-2 min-h-[150px] scroll-mt-16 text-xs"
       >
         {/* Add this button in your UI, typically at the top or bottom of the modal */}
-        <div className="flex justify-end gap-2 p-2">
+        {canEdit("laborCategories") &&<div className="flex justify-end gap-2 p-2">
         <button
     // onClick={() => {
     //   // Clear all new rate states
@@ -2782,7 +2782,7 @@ const PLCComponent = forwardRef(
 >
 Delete Selected
 </button>
-        </div> 
+        </div> }
         {/* <ToastContainer
         position="top-right"
         autoClose={3000}

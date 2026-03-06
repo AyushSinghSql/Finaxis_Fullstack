@@ -7,7 +7,7 @@
   import { CircleArrowLeft } from "lucide-react";
   import { FaEye, FaEyeSlash } from "react-icons/fa";
 
-  const ManageUser = () => {
+  const ManageUser = ({canEdit}) => {
     // Global lists
     const [users, setUsers] = useState([]);
     const [userNewPassword, setUserNewPassword] = useState("")
@@ -271,7 +271,7 @@
 
       return (
         <>
-          <div className="mb-1">
+          {canEdit("manageUser") && <div className="mb-1">
             <h3 className="text-sm font-semibold text-gray-900 mb-3 ">
               {editingUserId ? "Edit User" : "Create User"}
             </h3>
@@ -370,10 +370,10 @@
                 </select>
               </div>
             </div>
-          </div>
+          </div>}
 
-          <div className="">
-            <div className="flex mt-10 justify-between items-center mb-3">
+          <div className={canEdit("manageUser")? "mt-10" : ""}>
+            <div className="flex justify-between items-center mb-3">
               <div className="flex gap-2 items-center">
                 <h3 className="input-label">Existing Users</h3>
                 <input
@@ -385,7 +385,7 @@
                 />
               </div>
               <div className="flex items-center gap-x-2">
-                <button
+                {canEdit("manageUser") && <button
                   type="button"
                   onClick={handleCreateOrUpdateUser}
                   className="btn1 btn-blue disabled:opacity-60"
@@ -396,8 +396,8 @@
                     : editingUserId
                       ? "Update User"
                       : "Create User"}
-                </button>
-                {editingUserId && (
+                </button>}
+                {editingUserId && canEdit("manageUser") && (
                   <button
                     type="button"
                     onClick={resetUserForm}
@@ -407,7 +407,7 @@
                     Cancel
                   </button>
                 )}
-                <button
+                {canEdit("manageUser") && <button
                   type="button"
                   onClick={handleBulkDeleteUsers}
                   className={`btn1 btn-red disabled:opacity-50 ${userFormLoading || selectedUserIdsForDelete.length === 0 ? "hidden" : ""}`}
@@ -416,7 +416,7 @@
                   }
                 >
                   Delete ({selectedUserIdsForDelete.length})
-                </button>
+                </button>}
               </div>
             </div>
 
@@ -525,14 +525,14 @@
                 <table className="w-full text-sm">
                   <thead className="thead">
                     <tr className="bg-white border-b border-gray-300">
-                      <th className="th-thead text-left text-black bg-[#e5f3fb] text-sm w-10">
+                      {canEdit("manageUser") && <th className="th-thead text-left text-black bg-[#e5f3fb] text-sm w-10">
                         <input
                           type="checkbox"
                           className="w-3 h-3"
                           checked={allSelected}
                           onChange={() => toggleSelectAllUsers(filteredUsers)}
                         />
-                      </th>
+                      </th>}
                       {/* <th className="th-thead text-left text-gray-500 text-xs">
                     ID
                   </th> */}
@@ -551,9 +551,9 @@
                       <th className="th-thead text-left bg-[#e5f3fb] text-black text-xs">
                         Status
                       </th>
-                      <th className="th-thead text-right bg-[#e5f3fb] text-black text-xs">
+                      {canEdit("manageUser") && <th className="th-thead text-right bg-[#e5f3fb] text-black text-xs">
                         Actions
-                      </th>
+                      </th>}
                     </tr>
                   </thead>
                   <tbody>
@@ -598,7 +598,7 @@
                             key={u.userId}
                             className="hover:bg-gray-50 border-b border-gray-300"
                           >
-                            <td className="tbody-td">
+                            {canEdit("manageUser") && <td className="tbody-td">
                               <input
                                 type="checkbox"
                                 className="w-3 h-3"
@@ -607,7 +607,7 @@
                                   toggleSelectedUserForDelete(u.userId)
                                 }
                               />
-                            </td>
+                            </td>}
                             {/* <td className="tbody-td">{u.userId}</td> */}
                             <td className="tbody-td">{u.username}</td>
                             <td className="tbody-td">{u.fullName}</td>
@@ -625,7 +625,7 @@
                                 {u.isActive ? "Active" : "Inactive"}
                               </span>
                             </td>
-                            <td className="tbody-td text-right flex gap-2 items-center justify-center">
+                            {canEdit("manageUser") && <td className="tbody-td text-right flex gap-2 items-center justify-center">
                               <button
                                 type="button"
                                 onClick={() => startEditUser(u)}
@@ -650,7 +650,7 @@
                           >
                             Delete
                           </button> */}
-                            </td>
+                            </td>}
                           </tr>
                         );
                       })

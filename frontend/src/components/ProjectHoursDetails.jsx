@@ -5933,7 +5933,7 @@ console.log(editedEmployeeData)
    const handleSaveAll = async () => {
       const hasHoursChanges = Object.keys(modifiedHours).length > 0;
       const hasEmployeeChanges = Object.keys(editedEmployeeData).length > 0;
- 
+
       if (!hasHoursChanges && !hasEmployeeChanges) {
         return true;
       }

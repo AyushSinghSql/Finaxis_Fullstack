@@ -282,7 +282,7 @@ import { toast } from "react-toastify";
 
 const updatedBy = "User";
 
-const TemplateManager = () => {
+const TemplateManager = ({canEdit}) => {
   const [templates, setTemplates] = useState([]);
   const [pools, setPools] = useState([]);
   const [poolMappings, setPoolMappings] = useState({});
@@ -621,14 +621,16 @@ const handleSave = async (e) => {
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <h2 className="input-label">Burden Templates</h2>
-        <button
+        <div>
+        {canEdit("poolRateTabs") && <button
           onClick={() => openForm()}
           className="btn1 btn-blue flex items-center gap-1"
           disabled={isSubmitting}
         >
           <Plus className="w-4 h-4" />
           <span>Add Burden</span>
-        </button>
+        </button>}
+        </div>
       </div>
 
       {/* Form + Pool Mapping */}
@@ -746,7 +748,7 @@ const handleSave = async (e) => {
             <tr>
               <th className="th-thead">Burden Code</th>
               <th className="th-thead">Description</th>
-              <th className="th-thead">Actions</th>
+              {canEdit("poolRateTabs") && <th className="th-thead">Actions</th>}
             </tr>
           </thead>
           <tbody className="tbody">
@@ -754,7 +756,7 @@ const handleSave = async (e) => {
               <tr key={template.id} className="hover:bg-gray-50">
                 <td className="tbody-td">{template.templateCode}</td>
                 <td className="tbody-td">{template.description}</td>
-                <td className="tbody-td">
+                {canEdit("poolRateTabs") && <td className="tbody-td">
                   <div className="flex items-center justify-center gap-2">
                     <button
                       onClick={() => openForm(template)}
@@ -771,7 +773,7 @@ const handleSave = async (e) => {
                       <Trash2 className="w-4 h-4" />
                     </button>
                   </div>
-                </td>
+                </td>}
               </tr>
             ))}
             {templates.length === 0 && (

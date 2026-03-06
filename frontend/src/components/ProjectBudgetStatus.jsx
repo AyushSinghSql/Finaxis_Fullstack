@@ -96,7 +96,6 @@ const ProjectBudgetStatus = ({canView, canEdit}) => {
   const EXTERNAL_API_BASE_URL = backendUrl;
   const CALCULATE_COST_ENDPOINT = "/Forecast/CalculateCost";
 
-  const [currentUserRole, setCurrentUserRole] = useState(null);
   const [currentPlan, setCurrentPlan] = useState(null);
   const [userName, setUserName] = useState("");
   const [tabVisibility, setTabVisibility] = useState({});
@@ -397,19 +396,6 @@ const ProjectBudgetStatus = ({canView, canEdit}) => {
       return "N/A";
     }
   };
-
-  useEffect(() => {
-    const userString = localStorage.getItem("currentUser");
-    if (userString) {
-      try {
-        const userObj = JSON.parse(userString);
-        setUserName(userObj.name ? capitalizeWords(userObj.name) : null);
-        setCurrentUserRole(userObj.role ? userObj.role.toLowerCase() : null);
-      } catch {
-        setCurrentUserRole(null);
-      }
-    }
-  }, []);
 
   const isChildProjectId = (projId) => {
     return projId && typeof projId === "string" && projId.includes(".");
@@ -1933,8 +1919,7 @@ const handleInputChange = (e) => {
         </div>
 
         {/* Dashboard Tab */}
-        {activeTab === "dashboard" &&
-          (currentUserRole === "admin" || currentUserRole === "approver") && (
+        {activeTab === "dashboard" && (
             <div
               className="relative  p-2 sm:p-4 border-line min-h-[150px] scroll-mt-16"
               ref={(el) => (dashboardRefs.current[searchTerm] = el)}
@@ -2186,8 +2171,7 @@ const handleInputChange = (e) => {
         {/* Revenue Analysis Tab */}
         {viewMode === "details" &&
           activeTab === "revenueAnalysis" &&
-          selectedPlan &&
-          (currentUserRole === "admin" || currentUserRole === "approver") && (
+          selectedPlan && (
             <div
               className="relative  p-2 sm:p-4 border-line min-h-[150px] scroll-mt-16"
               ref={(el) => (revenueRefs.current[searchTerm] = el)}
@@ -2236,8 +2220,7 @@ const handleInputChange = (e) => {
 
         {/* Analysis By Period Tab */}
         {activeTab === "analysisByPeriod" &&
-          selectedPlan &&
-          (currentUserRole === "admin" || currentUserRole === "approver") && (
+          selectedPlan  && (
             <div
               className="relative   p-2 sm:p-4 border-line min-h-[150px] scroll-mt-16"
               ref={(el) => (analysisRefs.current[searchTerm] = el)}
@@ -2323,8 +2306,7 @@ const handleInputChange = (e) => {
 
         {/* PLC Tab */}
         {activeTab === "plc" &&
-          selectedPlan &&
-          (currentUserRole === "admin" || currentUserRole === "approver") && (
+          selectedPlan  && (
             <div
               className="relative  p-2 sm:p-4 border-line min-h-[150px] scroll-mt-16"
               ref={(el) => (hoursRefs.current[searchTerm] = el)}
@@ -2394,8 +2376,7 @@ const handleInputChange = (e) => {
 
         {/* RevenueSetup Tab */}
         {activeTab === "revenueSetup" &&
-          selectedPlan &&
-          (currentUserRole === "admin" || currentUserRole === "approver") && (
+          selectedPlan && (
             <div
               className="relative  p-2 sm:p-4 border-line  min-h-[150px] scroll-mt-16"
               ref={(el) => {
@@ -2455,8 +2436,7 @@ const handleInputChange = (e) => {
 
         {/* Revenue Ceiling Tab */}
         {activeTab === "revenueCeiling" &&
-          selectedPlan &&
-          (currentUserRole === "admin" || currentUserRole === "approver") && (
+          selectedPlan && (
             <div
               className="relative  p-2 sm:p-4 border-line min-h-[150px] scroll-mt-16"
               ref={(el) => {
@@ -2516,8 +2496,7 @@ const handleInputChange = (e) => {
 
         {/* Funding Tab */}
         {activeTab === "funding" &&
-          selectedPlan &&
-          (currentUserRole === "admin" || currentUserRole === "approver") && (
+          selectedPlan && (
             <div
               className="relative  p-2 sm:p-4 border-line min-h-[150px] scroll-mt-16"
               ref={(el) => (fundingRefs.current[searchTerm] = el)}

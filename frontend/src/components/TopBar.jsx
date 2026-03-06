@@ -57,7 +57,7 @@ function TopBar({ fullName = "", onLogout }) {
         {/* Left: logo + app name */}
         <div className="flex items-center gap-2">
           <span className="text-sm font-semibold tracking-wide">
-            <span className="font-bold">Revolve</span> FinAxis Ayush Singh
+            <span className="font-bold">Revolve</span> FinAxis
           </span>         
         </div>
         <div className="flex items-center gap-4"> 

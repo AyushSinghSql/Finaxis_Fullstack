@@ -450,6 +450,7 @@ const isExpanded = isSidebarOpen || isHovered;
                     </>
                     )}
                     {canView("manageNewBusiness") && (
+                      <>
                     <NavItem
                       label="Manage New Business"
                       path="/dashboard/new-business"
@@ -457,6 +458,7 @@ const isExpanded = isSidebarOpen || isHovered;
                       onClick={handleLinkClick}
                       searchTerm={searchTerm}
                     />
+                    </>
                     )}
                    {canView("transferUtility") && (
                     <NavItem

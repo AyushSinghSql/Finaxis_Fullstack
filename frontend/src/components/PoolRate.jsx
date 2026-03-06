@@ -30,7 +30,7 @@ class ErrorBoundary extends React.Component {
   }
 }
 
-const PoolRate = ({ userName = "User" }) => {
+const PoolRate = ({ userName = "User" , canEdit}) => {
   const [templates, setTemplates] = useState([]);
   const [pools, setPools] = useState([]);
   const [selectedTemplate, setSelectedTemplate] = useState("");
@@ -552,8 +552,8 @@ const PoolRate = ({ userName = "User" }) => {
         {/* <h1 className="w-full  bg-blue-50 border-l-4 border-blue-400 p-3 rounded-lg shadow-sm mb-4 blue-text">
           Pool Rate
         </h1> */}
-        {loading && <p className="text-gray-600 text-sm mb-2">Loading...</p>}
-        {isSaving && <p className="text-gray-600 text-sm mb-2">Saving...</p>}
+        {/* {loading && <p className="text-gray-600 text-sm mb-2">Loading...</p>}
+        {isSaving && <p className="text-gray-600 text-sm mb-2">Saving...</p>} */}
         {error && <p className="text-red-600 text-sm mb-2">Error: {error}</p>}
         <div className="flex flex-col gap-2 w-full">
           <div className="gap-4 flex w-full items-center ">
@@ -601,14 +601,14 @@ const PoolRate = ({ userName = "User" }) => {
 
             <div className="flex items-center gap-2">
               <div>
-                <button
+                {canEdit("poolRateTabs") && selectedTemplate && selectedYear && <button
                   type="button"
                   className="btn1 btn-blue"
                   onClick={saveMonthlyData}
                   disabled={editMonths.size === 0 || loading || isSaving}
                 >
                   Save
-                </button>
+                </button>}
               </div>
               <div>
                 {pendingNavigation.current && (
@@ -622,7 +622,7 @@ const PoolRate = ({ userName = "User" }) => {
                 )}
               </div>
               <div>
-                <button
+                {canEdit("poolRateTabs") && selectedTemplate && selectedYear && <button
                   type="button"
                   className="btn1 btn-blue flex items-center gap-1"
                   onClick={() => setIsFindReplaceOpen(!isFindReplaceOpen)}
@@ -645,7 +645,7 @@ const PoolRate = ({ userName = "User" }) => {
                     />
                   </svg>
                   <span>Find and Replace</span>
-                </button>
+                </button>}
                 {isFindReplaceOpen && (
                   <div className="fixed inset-0 z-40 w-full flex items-start justify-center bg-black/20">
                     <div className="mt-20 w-full max-w-md bg-white rounded-lg shadow-xl border">
@@ -953,7 +953,7 @@ const PoolRate = ({ userName = "User" }) => {
 /> */}
                                 <input
                                   type="text"
-                                  className="table-input"
+                                  className={`table-input ${canEdit("poolRateTabs")? "" : "bg-gray-200"}`}
                                   // className="w-16 px-1 py-0.5 border border-gray-300 rounded-md bg-green-50 focus:outline-none focus:ring-1 focus:ring-blue-400 text-xs shadow-sm hover:border-blue-400 transition-colors"
                                   value={
                                     data.rates[pool.poolId]?.targetRate || ""
@@ -1111,7 +1111,7 @@ const PoolRate = ({ userName = "User" }) => {
                                     }
                                   }}
                                   placeholder="0.000000"
-                                  disabled={loading || isSaving}
+                                  disabled={loading || isSaving || !canEdit("poolRateTabs")}
                                 />
                               </td>
                             ))}

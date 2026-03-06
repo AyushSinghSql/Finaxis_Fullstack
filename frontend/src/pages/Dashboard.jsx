@@ -1097,7 +1097,7 @@ import { Navigate, useNavigate, Outlet } from "react-router-dom";
 import NavigationSidebar from "../components/NavigationSidebar";
 import TopBar from "../components/TopBar";
 
-const Dashboard = ({canView}) => {
+const Dashboard = ({canView, loadConfig}) => {
   const [userName, setUserName] = useState("");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     // hover state (existing)
@@ -1150,7 +1150,7 @@ const Dashboard = ({canView}) => {
          <div className={`group bg-white border-r border-gray-200 h-full transition-all duration-300 ${sidebarWidth} `}
             onMouseEnter={() => setIsHovered(true)}
     onMouseLeave={() => setIsHovered(false)}>
-          <NavigationSidebar canView={canView} isSidebarOpen={isSidebarOpen} 
+          <NavigationSidebar loadConfig={loadConfig} canView={canView} isSidebarOpen={isSidebarOpen} 
     setIsSidebarOpen={setIsSidebarOpen}
     isHovered={isHovered} setIsHovered={setIsHovered}/>
     </div>

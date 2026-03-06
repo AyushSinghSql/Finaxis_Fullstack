@@ -282,7 +282,7 @@ const stripCommas = (val) => {
 
     useEffect(() => {
       const handleBeforeUnload = (event) => {
-        if (ref.current?.hasUnsavedChanges()) {
+        if (ref.current?.hasUnsavedChanges?.()) {
           const msg = "Changes you made may not be saved.";
           event.preventDefault();
           event.returnValue = msg;
@@ -291,7 +291,7 @@ const stripCommas = (val) => {
       };
 
       const handleInternalClick = (e) => {
-        if (ref.current?.hasUnsavedChanges()) {
+        if (ref.current?.hasUnsavedChanges?.()) {
           const target =
             e.target.closest("a") ||
             e.target.closest('button[data-nav="true"]');
@@ -1673,117 +1673,228 @@ const handleInputChange = (empIdx, uniqueKey, newValue) => {
       }
     };
 
-    const handleSaveFieldChanges = async () => {
-      if (editingRowIndex === null || !editedRowData[editingRowIndex]) {
-        // Return true because there was nothing to save (not a failure)
-        return true;
-      }
+    // const handleSaveFieldChanges = async () => {
+    //   if (editingRowIndex === null || !editedRowData[editingRowIndex]) {
+    //     // Return true because there was nothing to save (not a failure)
+    //     return true;
+    //   }
 
-      const emp = employees[editingRowIndex];
+  
+
+    //   const emp = employees[editingRowIndex];
+    //   if (!emp || !emp.emple) {
+    //     toast.error("Employee data is missing for update.");
+    //     return false;
+    //   }
+
+    //   const edited = editedRowData[editingRowIndex];
+
+    //   // --- START VALIDATION LOGIC ---
+    //   let validAccounts = [];
+
+    //   if (emp.emple.type === "Vendor" || emp.emple.type === "Vendor Employee") {
+    //     validAccounts = subContractorNonLaborAccounts.map(
+    //       (a) => a.id || a.accountId || "",
+    //     );
+    //   } else if (emp.emple.type === "Other") {
+    //     validAccounts = [
+    //       ...employeeNonLaborAccounts.map((a) => a.id || a.accountId || ""),
+    //       ...subContractorNonLaborAccounts.map(
+    //         (a) => a.id || a.accountId || "",
+    //       ),
+    //       ...otherDirectCostNonLaborAccounts.map(
+    //         (a) => a.id || a.accountId || "",
+    //       ),
+    //     ];
+    //   } else {
+    //     validAccounts = employeeNonLaborAccounts.map(
+    //       (a) => a.id || a.accountId || "",
+    //     );
+    //   }
+
+    //   if (edited.acctId && !validAccounts.includes(edited.acctId)) {
+    //     toast.error("Please select a valid account from suggestions");
+    //     return false; // STOP: Returns false to prevent Master Save success toast
+    //   }
+
+    //   const validOrgs = organizationOptions.map((org) => org.value);
+    //   if (edited.orgId && !validOrgs.includes(edited.orgId)) {
+    //     toast.error("Please select a valid organization from suggestions");
+    //     return false; // STOP
+    //   }
+    //   // --- END VALIDATION LOGIC ---
+
+    //   const payload = {
+    //     dctId: emp.emple.dctId || 0,
+    //     plId: emp.emple.plId || 0,
+    //    category:
+    // edited?.name !== undefined
+    //   ? edited.name
+    //   : emp.emple.category || "",
+  
+    //     accId: edited.acctId !== undefined ? edited.acctId : emp.emple.accId,
+    //     orgId: edited.orgId !== undefined ? edited.orgId : emp.emple.orgId,
+    //     type: emp.emple.type || "",
+    //     // category: emp.emple.category || "",
+    //     amountType: emp.emple.amountType || "",
+    //     id: emp.emple.emplId || "",
+    //     isRev: edited.isRev !== undefined ? edited.isRev : emp.emple.isRev,
+    //     isBrd: edited.isBrd !== undefined ? edited.isBrd : emp.emple.isBrd,
+    //     createdBy: emp.emple.createdBy || "System",
+    //     lastModifiedBy: "System",
+    //   };
+
+    //   setIsLoading(true);
+    //   try {
+    //     await axios.put(
+    //       `${backendUrl}/DirectCost/UpdateDirectCost?plid=${planId}&TemplateId=${templateId}`,
+    //       { ...payload, acctId: payload.accId },
+    //       { headers: { "Content-Type": "application/json" } },
+    //     );
+
+    //     setEditedRowData((prev) => {
+    //       const newData = { ...prev };
+    //       delete newData[editingRowIndex];
+    //       return newData;
+    //     });
+
+    //     setEmployees((prev) => {
+    //       const updated = [...prev];
+    //       updated[editingRowIndex] = {
+    //         ...updated[editingRowIndex],
+    //         emple: { ...updated[editingRowIndex].emple, ...payload },
+    //       };
+    //       return updated;
+    //     });
+
+    //     setEditingRowIndex(null);
+    //     setHasUnsavedFieldChanges(false);
+
+    //     // toast.success("Employee updated successfully!", {
+    //     //   toastId: `employee-update-${editingRowIndex}`,
+    //     //   autoClose: 2000,
+    //     // });
+    //     return true; // SUCCESS: Allows Master Save to continue
+    //   } catch (err) {
+    //     toast.error(
+    //       "Failed to update employee: " +
+    //         (err.response?.data?.message || err.message),
+    //     );
+    //     return false; // FAILURE: Blocks Master Save success toast
+    //   } finally {
+    //     setIsLoading(false);
+    //   }
+    // };
+
+const handleSaveFieldChanges = async () => {
+  if (Object.keys(editedRowData).length === 0) {
+    return true;
+  }
+
+  setIsLoading(true);
+
+  try {
+    for (const rowIndex in editedRowData) {
+      const emp = employees[rowIndex];
+
       if (!emp || !emp.emple) {
         toast.error("Employee data is missing for update.");
         return false;
       }
 
-      const edited = editedRowData[editingRowIndex];
+      const edited = editedRowData[rowIndex];
 
       // --- START VALIDATION LOGIC ---
       let validAccounts = [];
 
       if (emp.emple.type === "Vendor" || emp.emple.type === "Vendor Employee") {
         validAccounts = subContractorNonLaborAccounts.map(
-          (a) => a.id || a.accountId || "",
+          (a) => a.id || a.accountId || ""
         );
       } else if (emp.emple.type === "Other") {
         validAccounts = [
           ...employeeNonLaborAccounts.map((a) => a.id || a.accountId || ""),
           ...subContractorNonLaborAccounts.map(
-            (a) => a.id || a.accountId || "",
+            (a) => a.id || a.accountId || ""
           ),
           ...otherDirectCostNonLaborAccounts.map(
-            (a) => a.id || a.accountId || "",
+            (a) => a.id || a.accountId || ""
           ),
         ];
       } else {
         validAccounts = employeeNonLaborAccounts.map(
-          (a) => a.id || a.accountId || "",
+          (a) => a.id || a.accountId || ""
         );
       }
 
       if (edited.acctId && !validAccounts.includes(edited.acctId)) {
         toast.error("Please select a valid account from suggestions");
-        return false; // STOP: Returns false to prevent Master Save success toast
+        return false;
       }
 
       const validOrgs = organizationOptions.map((org) => org.value);
+
       if (edited.orgId && !validOrgs.includes(edited.orgId)) {
         toast.error("Please select a valid organization from suggestions");
-        return false; // STOP
+        return false;
       }
       // --- END VALIDATION LOGIC ---
 
       const payload = {
         dctId: emp.emple.dctId || 0,
         plId: emp.emple.plId || 0,
-       category:
-    edited?.name !== undefined
-      ? edited.name
-      : emp.emple.category || "",
-  
-        accId: edited.acctId !== undefined ? edited.acctId : emp.emple.accId,
-        orgId: edited.orgId !== undefined ? edited.orgId : emp.emple.orgId,
+        category:
+          edited?.name !== undefined
+            ? edited.name
+            : emp.emple.category || "",
+        accId:
+          edited.acctId !== undefined ? edited.acctId : emp.emple.accId,
+        orgId:
+          edited.orgId !== undefined ? edited.orgId : emp.emple.orgId,
         type: emp.emple.type || "",
-        // category: emp.emple.category || "",
         amountType: emp.emple.amountType || "",
         id: emp.emple.emplId || "",
-        isRev: edited.isRev !== undefined ? edited.isRev : emp.emple.isRev,
-        isBrd: edited.isBrd !== undefined ? edited.isBrd : emp.emple.isBrd,
+        isRev:
+          edited.isRev !== undefined ? edited.isRev : emp.emple.isRev,
+        isBrd:
+          edited.isBrd !== undefined ? edited.isBrd : emp.emple.isBrd,
         createdBy: emp.emple.createdBy || "System",
         lastModifiedBy: "System",
       };
 
-      setIsLoading(true);
-      try {
-        await axios.put(
-          `${backendUrl}/DirectCost/UpdateDirectCost?plid=${planId}&TemplateId=${templateId}`,
-          { ...payload, acctId: payload.accId },
-          { headers: { "Content-Type": "application/json" } },
-        );
+      await axios.put(
+        `${backendUrl}/DirectCost/UpdateDirectCost?plid=${planId}&TemplateId=${templateId}`,
+        { ...payload, acctId: payload.accId },
+        { headers: { "Content-Type": "application/json" } }
+      );
 
-        setEditedRowData((prev) => {
-          const newData = { ...prev };
-          delete newData[editingRowIndex];
-          return newData;
-        });
+      // Update local state
+      setEmployees((prev) => {
+        const updated = [...prev];
+        updated[rowIndex] = {
+          ...updated[rowIndex],
+          emple: { ...updated[rowIndex].emple, ...payload },
+        };
+        return updated;
+      });
+    }
 
-        setEmployees((prev) => {
-          const updated = [...prev];
-          updated[editingRowIndex] = {
-            ...updated[editingRowIndex],
-            emple: { ...updated[editingRowIndex].emple, ...payload },
-          };
-          return updated;
-        });
+    // Clear edited rows
+    setEditedRowData({});
+    setEditingRowIndex(null);
+    setHasUnsavedFieldChanges(false);
 
-        setEditingRowIndex(null);
-        setHasUnsavedFieldChanges(false);
-
-        // toast.success("Employee updated successfully!", {
-        //   toastId: `employee-update-${editingRowIndex}`,
-        //   autoClose: 2000,
-        // });
-        return true; // SUCCESS: Allows Master Save to continue
-      } catch (err) {
-        toast.error(
-          "Failed to update employee: " +
-            (err.response?.data?.message || err.message),
-        );
-        return false; // FAILURE: Blocks Master Save success toast
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
+    return true;
+  } catch (err) {
+    toast.error(
+      "Failed to update employee: " +
+        (err.response?.data?.message || err.message)
+    );
+    return false;
+  } finally {
+    setIsLoading(false);
+  }
+};
     const handleMasterSave = async () => {
       
       const hasNewEntries = newEntries?.length > 0;

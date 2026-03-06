@@ -10,7 +10,7 @@ const cn = (...args) => {
 };
 
 // --- Main LaborForm Component with Tabs ---
-const LaborForm = () => {
+const LaborForm = ({canEdit}) => {
   const [activeTab, setActiveTab] = useState("OrganizationSettings");
 
   const [budgetHeaderDateFormat, setBudgetHeaderDateFormat] = useState(""); // Default to empty for "Select"
@@ -983,7 +983,7 @@ const handleDelete = async (version) => {
               </button>
             </div>
 
-            {(activeTab != "versionCodeType" &&
+            {(activeTab != "versionCodeType" && canEdit("globalConfiguration") &&
             <div className="flex justify-end ">
               <button
                 type="button"
@@ -2377,8 +2377,7 @@ const handleDelete = async (version) => {
           )}
           {activeTab === "versionCodeType" && (
   <div>
-    <div className="flex justify-between items-center mb-6">
-      <h2 className="input-label font-bold text-lg">Configure Version Codes</h2>
+    <div className="flex justify-end items-center mb-6">
       <button
         onClick={() => openForm()}
         className="btn1 btn-blue flex items-center gap-1"
@@ -2465,7 +2464,7 @@ const handleDelete = async (version) => {
           <tr>
             <th className="th-thead">Version Code</th>
             {/* <th className="th-thead">Description</th> */}
-            <th className="th-thead">Actions</th>
+            {canEdit("globalConfiguration") && <th className="th-thead">Actions</th>}
           </tr>
         </thead>
         <tbody className="tbody">
@@ -2474,7 +2473,7 @@ const handleDelete = async (version) => {
               {/* <td className="tbody-td">{version.id}</td> */}
               <td className="tbody-td">{version.versionCodeValue}</td>
               {/* <td className="tbody-td">{version.versionCodeValue}</td> */}
-              <td className="tbody-td">
+              {canEdit("globalConfiguration") && <td className="tbody-td">
                 <div className="flex items-center justify-center gap-2">
                   <button
                     onClick={() => openForm(version)}
@@ -2491,7 +2490,7 @@ const handleDelete = async (version) => {
                     <Trash2 className="w-4 h-4" />
                   </button>
                 </div>
-              </td>
+              </td>}
             </tr>
           ))}
           {version.length === 0 && (
