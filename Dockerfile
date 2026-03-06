@@ -1,22 +1,15 @@
-# 1. Build Stage (Needs both .NET SDK and Node.js)
+# 1. Build Stage
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
-
-# --- REQUIRED: Install Node.js so 'npm install' can run inside the container ---
-RUN apt-get update && apt-get install -y curl && \
-    curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
-    apt-get install -y nodejs
-
 WORKDIR /src
 
-# Copy EVERYTHING (Both frontend and backend folders) 
-# The .csproj needs to see the ../frontend folder to build it
-COPY . .
-
-# Restore dependencies
+# Copy the project file using the subfolder path
+COPY ["PlanningAPI/Planning_API.csproj", "PlanningAPI/"]
 RUN dotnet restore "PlanningAPI/Planning_API.csproj"
 
+# Copy the entire backend folder (which includes your wwwroot/react files)
+COPY PlanningAPI/ ./PlanningAPI/
+
 # Build and Publish
-# This will trigger your <Target Name="BuildFrontend"> because Docker uses Release mode
 WORKDIR "/src/PlanningAPI"
 RUN dotnet publish "Planning_API.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
@@ -25,8 +18,8 @@ FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS final
 WORKDIR /app
 EXPOSE 8080
 
+# Switch to root to install your specific native dependencies
 USER root
-# Install your specific native dependencies
 RUN apt-get update && apt-get install -y \
     libc6-dev \
     libgdiplus \
@@ -39,9 +32,10 @@ RUN apt-get update && apt-get install -y \
  && ln -s /lib/x86_64-linux-gnu/libdl.so.2 /usr/lib/libdl.so || true \
  && rm -rf /var/lib/apt/lists/*
 
+# Create your uploads directory
 RUN mkdir -p /tmp/uploads && chmod -R 777 /tmp/uploads
 
-# Copy the published app (which now contains the new React files in wwwroot)
+# Copy the published app from the build stage
 COPY --from=build /app/publish .
 
 ENV ASPNETCORE_URLS=http://+:8080
