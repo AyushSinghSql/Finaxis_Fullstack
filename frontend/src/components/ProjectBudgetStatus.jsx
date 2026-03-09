@@ -34,7 +34,7 @@ export const HOUR_BUTTON = [
   { key: "warning", label: "Warning" },
 ];
 
-const ProjectBudgetStatus = ({canView, canEdit}) => {
+const ProjectBudgetStatus = () => {
   const [projects, setProjects] = useState([]);
   const [plans, setPlans] = useState([]);
   const [prefixes, setPrefixes] = useState(new Set());
@@ -96,6 +96,7 @@ const ProjectBudgetStatus = ({canView, canEdit}) => {
   const EXTERNAL_API_BASE_URL = backendUrl;
   const CALCULATE_COST_ENDPOINT = "/Forecast/CalculateCost";
 
+  const [currentUserRole, setCurrentUserRole] = useState(null);
   const [currentPlan, setCurrentPlan] = useState(null);
   const [userName, setUserName] = useState("");
   const [tabVisibility, setTabVisibility] = useState({});
@@ -396,6 +397,19 @@ const ProjectBudgetStatus = ({canView, canEdit}) => {
       return "N/A";
     }
   };
+
+  useEffect(() => {
+    const userString = localStorage.getItem("currentUser");
+    if (userString) {
+      try {
+        const userObj = JSON.parse(userString);
+        setUserName(userObj.name ? capitalizeWords(userObj.name) : null);
+        setCurrentUserRole(userObj.role ? userObj.role.toLowerCase() : null);
+      } catch {
+        setCurrentUserRole(null);
+      }
+    }
+  }, []);
 
   const isChildProjectId = (projId) => {
     return projId && typeof projId === "string" && projId.includes(".");
@@ -1708,9 +1722,10 @@ const handleInputChange = (e) => {
                   BUD/EAC
                 </span>
 
-                
-                    {canView("monthlyForecast") && (
-                      <span
+                {(currentUserRole === "admin" ||
+                  currentUserRole === "approver") && (
+                  <>
+                    <span
                       className={`rounded-lg px-3 py-2 text-xs font-semibold cursor-pointer disabled:opacity-40 transition-colors
               ${
                 activeTab === "analysisByPeriod"
@@ -1727,9 +1742,7 @@ const handleInputChange = (e) => {
                       onClick={() => handleTabClick("analysisByPeriod")}
                     >
                       Monthly Forecast
-                    </span>)}
-
-                    {canView("laborCategories") && (
+                    </span>
                     <span
                       className={`rounded-lg px-3 py-2 text-xs font-semibold cursor-pointer disabled:opacity-40 transition-colors
               ${
@@ -1745,9 +1758,7 @@ const handleInputChange = (e) => {
                       onClick={() => handleTabClick("plc")}
                     >
                       Labor Categories
-                    </span>)}
-
-                    {canView("revenueDefinition") && (
+                    </span>
                     <span
                       className={`rounded-lg px-3 py-2 text-xs font-semibold cursor-pointer disabled:opacity-40 transition-colors
               ${
@@ -1763,9 +1774,7 @@ const handleInputChange = (e) => {
                       onClick={() => handleTabClick("revenueSetup")}
                     >
                       Revenue Definition
-                    </span>)}
-
-                    {canView("adjustment") && (
+                    </span>
                     <span
                       className={`rounded-lg px-3 py-2 text-xs font-semibold cursor-pointer disabled:opacity-40 transition-colors
               ${
@@ -1783,9 +1792,7 @@ const handleInputChange = (e) => {
                       onClick={() => handleTabClick("revenueCeiling")}
                     >
                       Adjustment
-                    </span>)}
-
-                    {canView("funding") && (
+                    </span>
                     <span
                       className={`rounded-lg px-3 py-2 text-xs font-semibold cursor-pointer disabled:opacity-40 transition-colors
               ${
@@ -1801,9 +1808,10 @@ const handleInputChange = (e) => {
                       onClick={() => handleTabClick("funding")}
                     >
                       Funding
-                    </span>)}
-              
-                    {canView("warning") && (
+                    </span>
+                  </>
+                )}
+
                 <span
                   className={`rounded-lg px-3 py-2 text-xs font-semibold cursor-pointer disabled:opacity-40 transition-colors
           ${
@@ -1819,7 +1827,7 @@ const handleInputChange = (e) => {
                   onClick={() => handleTabClick("warning")}
                 >
                   Warning
-                </span>)}
+                </span>
               </div>
 
               {/* RIGHT SIDE: Fiscal Year Dropdown */}
@@ -1859,7 +1867,6 @@ const handleInputChange = (e) => {
               <ProjectPlanTable
                 ref={planTableRef}
                 statusFilter={statusFilterPlan}
-                canView={canView}
                 setStatusFilter={setStatusFilterPlan}
                 typeFilter={typeFilter}
                 setTypeFilter={setTypeFilter}
@@ -1919,7 +1926,8 @@ const handleInputChange = (e) => {
         </div>
 
         {/* Dashboard Tab */}
-        {activeTab === "dashboard" && (
+        {activeTab === "dashboard" &&
+          (currentUserRole === "admin" || currentUserRole === "approver") && (
             <div
               className="relative  p-2 sm:p-4 border-line min-h-[150px] scroll-mt-16"
               ref={(el) => (dashboardRefs.current[searchTerm] = el)}
@@ -2060,8 +2068,6 @@ const handleInputChange = (e) => {
                 Amtref={projectAmountsRef}
                 handleActionSelect={handleActionSelect}
                 fiscalYear={fiscalYear}
-                canView={canView}
-                canEdit={canEdit}
                 selectedPlan={selectedPlan}
                 setRefreshPool={setRefreshPool}
                 refreshKey={refreshKey}
@@ -2171,7 +2177,8 @@ const handleInputChange = (e) => {
         {/* Revenue Analysis Tab */}
         {viewMode === "details" &&
           activeTab === "revenueAnalysis" &&
-          selectedPlan && (
+          selectedPlan &&
+          (currentUserRole === "admin" || currentUserRole === "approver") && (
             <div
               className="relative  p-2 sm:p-4 border-line min-h-[150px] scroll-mt-16"
               ref={(el) => (revenueRefs.current[searchTerm] = el)}
@@ -2220,7 +2227,8 @@ const handleInputChange = (e) => {
 
         {/* Analysis By Period Tab */}
         {activeTab === "analysisByPeriod" &&
-          selectedPlan  && (
+          selectedPlan &&
+          (currentUserRole === "admin" || currentUserRole === "approver") && (
             <div
               className="relative   p-2 sm:p-4 border-line min-h-[150px] scroll-mt-16"
               ref={(el) => (analysisRefs.current[searchTerm] = el)}
@@ -2306,7 +2314,8 @@ const handleInputChange = (e) => {
 
         {/* PLC Tab */}
         {activeTab === "plc" &&
-          selectedPlan  && (
+          selectedPlan &&
+          (currentUserRole === "admin" || currentUserRole === "approver") && (
             <div
               className="relative  p-2 sm:p-4 border-line min-h-[150px] scroll-mt-16"
               ref={(el) => (hoursRefs.current[searchTerm] = el)}
@@ -2365,7 +2374,6 @@ const handleInputChange = (e) => {
 
               </div>
               <PLCComponent
-                canEdit={canEdit}
                 selectedProjectId={selectedPlan.projId}
                 selectedPlan={selectedPlan}
                 showPLC={activeTab === "plc"}
@@ -2376,7 +2384,8 @@ const handleInputChange = (e) => {
 
         {/* RevenueSetup Tab */}
         {activeTab === "revenueSetup" &&
-          selectedPlan && (
+          selectedPlan &&
+          (currentUserRole === "admin" || currentUserRole === "approver") && (
             <div
               className="relative  p-2 sm:p-4 border-line  min-h-[150px] scroll-mt-16"
               ref={(el) => {
@@ -2421,7 +2430,6 @@ const handleInputChange = (e) => {
 
               </div>
               <RevenueSetupComponent
-              canEdit={canEdit}
                 selectedPlan={{
                   ...selectedPlan,
                   startDate: selectedPlan.startDate,
@@ -2436,7 +2444,8 @@ const handleInputChange = (e) => {
 
         {/* Revenue Ceiling Tab */}
         {activeTab === "revenueCeiling" &&
-          selectedPlan && (
+          selectedPlan &&
+          (currentUserRole === "admin" || currentUserRole === "approver") && (
             <div
               className="relative  p-2 sm:p-4 border-line min-h-[150px] scroll-mt-16"
               ref={(el) => {
@@ -2481,7 +2490,6 @@ const handleInputChange = (e) => {
 
               </div>
               <RevenueCeilingComponent
-              canEdit={canEdit}
                 selectedPlan={{
                   ...selectedPlan,
                   startDate: selectedPlan.startDate,
@@ -2496,7 +2504,8 @@ const handleInputChange = (e) => {
 
         {/* Funding Tab */}
         {activeTab === "funding" &&
-          selectedPlan && (
+          selectedPlan &&
+          (currentUserRole === "admin" || currentUserRole === "approver") && (
             <div
               className="relative  p-2 sm:p-4 border-line min-h-[150px] scroll-mt-16"
               ref={(el) => (fundingRefs.current[searchTerm] = el)}
@@ -2538,7 +2547,6 @@ const handleInputChange = (e) => {
               <FundingComponent
                 selectedProjectId={selectedPlan.projId}
                 selectedPlan={selectedPlan.plId}
-                canView={canView}
               />
             </div>
           )}
@@ -2585,7 +2593,6 @@ const handleInputChange = (e) => {
             </div>
             <Warning
               planId={selectedPlan.plId}
-              canView={canView}
               projectId={selectedPlan.projId}
               templateId={selectedPlan.templateId}
               planType={selectedPlan.plType}

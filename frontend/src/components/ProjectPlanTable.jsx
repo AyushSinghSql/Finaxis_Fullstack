@@ -62,7 +62,6 @@ const ProjectPlanTable = forwardRef(
       setStatusFilter,
       typeFilter,
       setTypeFilter,
-      canView
     },
     ref,
   ) => {
@@ -2901,7 +2900,7 @@ const ProjectPlanTable = forwardRef(
                   {currentPlan &&
                     !isActionLoading &&
                     currentPlan?.plType &&
-                    role != "user" && canView("monthlyForecast") && (
+                    role != "user" && (
                       <button
                         onClick={() => {
                           if (!selectedPlan) return;

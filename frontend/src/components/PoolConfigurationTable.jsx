@@ -372,7 +372,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { backendUrl } from "./config";
 import { MonitorCog } from "lucide-react";
 
-const PoolConfigurationTable = ({canEdit}) => {
+const PoolConfigurationTable = () => {
   const [tableData, setTableData] = useState([]);
   const [originalTableData, setOriginalTableData] = useState([]);
   const [groupCodes, setGroupCodes] = useState([]);
@@ -438,9 +438,7 @@ const PoolConfigurationTable = ({canEdit}) => {
 // }, []);
 
   const filteredData = tableData.filter((row) => {
-    const acctMatch = searchTerm
-  ? row.acctId?.toString().toLowerCase().startsWith(searchTerm.toLowerCase())
-  : true;
+    const acctMatch = searchTerm ? row.acctId?.toString().toLowerCase().startsWith(searchTerm.toLowerCase()) : true;
     const orgMatch = orgSearchTerm ? row.orgId?.toString().toLowerCase().startsWith(orgSearchTerm.toLowerCase()) : true;
     return acctMatch && orgMatch;
   });
@@ -611,17 +609,15 @@ const PoolConfigurationTable = ({canEdit}) => {
           </div>
 
           {/* Right Side: Save Button */}
-          <div>
-          {canEdit("poolRateTabs") && <button
+          <button
             onClick={handleSave}
             disabled={isSaving}
             className={`btn1 btn-blue ${
               isSaving ? "bg-gray-400" : " "
-              }`}
-              >
+            }`}
+          >
             {isSaving ? "Saving..." : "Save"}
-          </button>}
-            </div>
+          </button>
         </div>
       </div>
 
@@ -644,7 +640,7 @@ const PoolConfigurationTable = ({canEdit}) => {
                     <span className="px-2 py-1  whitespace-nowrap border-gray-300 text-xs font-semibold bg-[#e5f3fb] text-black capitalize tracking-wide text-center">
                       {groupNames[code] || code}
                     </span>
-                    {canEdit("poolRateTabs") && <div className="flex items-center gap-1 mt-1">
+                    <div className="flex items-center gap-1 mt-1">
                       <input
                         type="checkbox"
                         className="cursor-pointer h-3 w-3"
@@ -657,7 +653,7 @@ const PoolConfigurationTable = ({canEdit}) => {
                       <span className="px-2 py-1 whitespace-nowrap text-xs font-semibold bg-[#e5f3fb] text-black capitalize tracking-wide text-center">
                         all
                       </span>
-                    </div>}
+                    </div>
                   </div>
                 </th>
               ))}
@@ -681,15 +677,14 @@ const PoolConfigurationTable = ({canEdit}) => {
                 <td className="tbody-td">{row.orgId}</td>
                 <td className="tbody-td whitespace-nowrap">{row.acctId}</td>
                 {groupCodes.map((code, idx) => (
-                  <td key={idx} className={`tbody-td`}>
+                  <td key={idx} className="tbody-td">
                     <input
                       type="checkbox"
                       checked={row[code] === true}
                       onChange={() =>
                         handleCheckboxChange(row.orgId, row.acctId, code)
                       }
-                      className={`h-3 w-3 text-blue-600 ${canEdit("poolRateTabs") ? "" : "bg-gray-600"}`}
-                      disabled={!canEdit("poolRateTabs")}
+                      className="h-3 w-3 text-blue-600"
                     />
                   </td>
                 ))}

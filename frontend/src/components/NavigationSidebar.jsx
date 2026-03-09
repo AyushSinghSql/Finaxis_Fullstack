@@ -16,7 +16,7 @@ import {
   Users, // new icon for New Business Budget section
 } from "lucide-react";
 
-const NavigationSidebar = ({setIsHovered,isHovered,setIsSidebarOpen,isSidebarOpen, canView}) => {
+const NavigationSidebar = ({setIsHovered,isHovered,setIsSidebarOpen,isSidebarOpen}) => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
 
@@ -230,7 +230,7 @@ const NavigationSidebar = ({setIsHovered,isHovered,setIsSidebarOpen,isSidebarOpe
 const isExpanded = isSidebarOpen || isHovered;
 
 
- return (
+  return (
     <div
       // onMouseOver={handleOpenSidebar}
       // onMouseLeave={handleCloseSidebar}
@@ -337,7 +337,7 @@ const isExpanded = isSidebarOpen || isHovered;
                       onClick={handleLinkClick}
                       searchTerm={searchTerm}
                     />
-                    {(canView("projectReport")  &&
+                    {(currentUserRole === "admin"  &&
                     <>
                     <NavItem
                       label="Reporting"
@@ -349,7 +349,7 @@ const isExpanded = isSidebarOpen || isHovered;
                     </>
                     )}
                      
-                    {canView("massUtility") && (
+                    
                     <NavItem
                       label="Mass Utility"
                       path="/dashboard/mass-utility"
@@ -357,8 +357,7 @@ const isExpanded = isSidebarOpen || isHovered;
                       onClick={handleLinkClick}
                       searchTerm={searchTerm}
                     />
-                    )}
-                    {canView("pricing") && (
+
                     <NavItem
                       label="Pricing"
                       path="/dashboard/pricing"
@@ -366,16 +365,14 @@ const isExpanded = isSidebarOpen || isHovered;
                       onClick={handleLinkClick}
                       searchTerm={searchTerm}
                     />
-                    )}
 
-                    {canView("financialReport") && (
-                    <NavItem
+                    {/* <NavItem
                       label="Financial Report"
                       path="/dashboard/financial-report"
                       selected={selectedPage}
                       onClick={handleLinkClick}
                       searchTerm={searchTerm}
-                    />)}
+                    /> */}
                     {/* <NavItem
                       label="Import"
                       path="/dashboard/import-utility"
@@ -403,9 +400,6 @@ const isExpanded = isSidebarOpen || isHovered;
 
               {/* --- NEW BUSINESS BUDGET SECTION (NEW) --- */}
                {/* {currentUserRole === "admin" && ( */}
-               {(canView("manageNewBusiness") ||
-                canView("transferUtility") ||
-                canView("impOpportunity")) && (
               <div>
                 {!searchTerm && (
                   <div
@@ -438,7 +432,7 @@ const isExpanded = isSidebarOpen || isHovered;
                 {(newBusinessSectionOpen || searchTerm) && isExpanded  && (
                   <div className="ml-12 mr-4 space-y-1 border-l border-gray-100">
                    
-                   {canView("impOpportunity") && (
+                   {(currentUserRole === "admin"  &&
                     <>
                     <NavItem
                       label="Import Opportunity"
@@ -449,8 +443,6 @@ const isExpanded = isSidebarOpen || isHovered;
                     />
                     </>
                     )}
-                    {canView("manageNewBusiness") && (
-                      <>
                     <NavItem
                       label="Manage New Business"
                       path="/dashboard/new-business"
@@ -458,9 +450,7 @@ const isExpanded = isSidebarOpen || isHovered;
                       onClick={handleLinkClick}
                       searchTerm={searchTerm}
                     />
-                    </>
-                    )}
-                   {canView("transferUtility") && (
+                   {(currentUserRole === "admin" || currentUserRole === "approver") &&  (
                     <NavItem
                       label="Transfer Project Budget"
                       path="/dashboard/create-project-budget"
@@ -474,10 +464,9 @@ const isExpanded = isSidebarOpen || isHovered;
                   </div>
                 )}
               </div>
-                )}
                {/* )} */}
 
-              {(canView("manageUser") || canView("manageGroups")) && (
+              {currentUserRole === "admin" && (
                 <div>
                   {!searchTerm && (
                     <div
@@ -507,7 +496,6 @@ const isExpanded = isSidebarOpen || isHovered;
 
                   {(manageSectionOpen || searchTerm) && isExpanded  && (
                     <div className="ml-12 mr-4 space-y-1 border-l border-gray-100">
-                      {canView("manageGroups") && (
                       <NavItem
                         label="Manage Groups"
                         path="/dashboard/manage-groups"
@@ -515,8 +503,6 @@ const isExpanded = isSidebarOpen || isHovered;
                         onClick={handleLinkClick}
                         searchTerm={searchTerm}
                       />
-                      )}
-                      {canView("manageUser") && (
                       <NavItem
                         label="Manage Users"
                         path="/dashboard/manage-users"
@@ -524,7 +510,6 @@ const isExpanded = isSidebarOpen || isHovered;
                         onClick={handleLinkClick}
                         searchTerm={searchTerm}
                       />
-                      )}
                     </div>
                   )}
                 </div>
@@ -580,16 +565,7 @@ const isExpanded = isSidebarOpen || isHovered;
    )} */}
 
               {/* --- CONFIGURATION SECTION --- */}
-              {(canView("globalConfiguration") ||
-                canView("poolRateTabs") ||
-                canView("projectOrgSecurity") ||
-                canView("accountMapping") ||
-                canView("analogRate") ||
-                canView("ceilingConfiguration") ||
-                canView("fiscalYearPeriods") ||
-                canView("annualHolidays") ||
-                canView("prospectiveIdSetup") ||
-                canView("roleRights")) && (
+              {currentUserRole === "admin" && (
                 <div>
                   {!searchTerm && (
                     <div
@@ -619,7 +595,6 @@ const isExpanded = isSidebarOpen || isHovered;
 
                   {(configurationOpen || searchTerm) && isExpanded  && (
                     <div className="ml-12 mr-4 space-y-1 border-l border-gray-100">
-                      {canView("globalConfiguration") && (
                       <NavItem
                         label="Configuration Setting"
                         path="/dashboard/global-configuration"
@@ -627,8 +602,6 @@ const isExpanded = isSidebarOpen || isHovered;
                         onClick={handleLinkClick}
                         searchTerm={searchTerm}
                       />
-                      )}
-                      {canView("poolRateTabs") && (
                       <NavItem
                         label="Burden Setup"
                         path="/dashboard/pool-rate-tabs"
@@ -636,8 +609,6 @@ const isExpanded = isSidebarOpen || isHovered;
                         onClick={handleLinkClick}
                         searchTerm={searchTerm}
                       />
-                      )}
-                       {canView("projectOrgSecurity") && (
                       <NavItem
                         label="Project Org Security"
                         path="/dashboard/projectmapping"
@@ -645,8 +616,6 @@ const isExpanded = isSidebarOpen || isHovered;
                         onClick={handleLinkClick}
                         searchTerm={searchTerm}
                       />
-                       )}
-                       {canView("accountMapping") && (
                       <NavItem
                         label="Account Mapping"
                         path="/dashboard/account-mapping"
@@ -654,8 +623,6 @@ const isExpanded = isSidebarOpen || isHovered;
                         onClick={handleLinkClick}
                         searchTerm={searchTerm}
                       />
-                       )}
-                       {canView("analogRate") && (
                       <NavItem
                         label="NBIs Analogous Rate"
                         path="/dashboard/analog-rate"
@@ -663,8 +630,6 @@ const isExpanded = isSidebarOpen || isHovered;
                         onClick={handleLinkClick}
                         searchTerm={searchTerm}
                       />
-                       )}
-                       {canView("ceilingConfiguration") && (
                       <NavItem
                         label="Ceiling Configuration"
                         path="/dashboard/ceiling-configuration"
@@ -672,8 +637,7 @@ const isExpanded = isSidebarOpen || isHovered;
                         onClick={handleLinkClick}
                         searchTerm={searchTerm}
                       />
-                       )}
-                        {canView("fiscalYearPeriods") && (
+
                       <NavItem
                         label="Fiscal Year Periods"
                         path="/dashboard/maintain-fiscal-year-periods"
@@ -681,8 +645,6 @@ const isExpanded = isSidebarOpen || isHovered;
                         onClick={handleLinkClick}
                         searchTerm={searchTerm}
                       />
-                        )}
-                          {canView("annualHolidays") && (
                       <NavItem
                         label="Annual Holidays"
                         path="/dashboard/annual-holidays"
@@ -690,8 +652,6 @@ const isExpanded = isSidebarOpen || isHovered;
                         onClick={handleLinkClick}
                         searchTerm={searchTerm}
                       />
-                          )}
-                           {canView("prospectiveIdSetup") && (
                       <NavItem
                         label="Prospective ID Setup"
                         path="/dashboard/prospective-id-setup"
@@ -699,15 +659,12 @@ const isExpanded = isSidebarOpen || isHovered;
                         onClick={handleLinkClick}
                         searchTerm={searchTerm}
                       />
-                           )}
-                              {canView("roleRights") && (
-                      <NavItem
+                      {/* <NavItem
                         label="Rights Settings"
                         path="/dashboard/role-rights"
                         selected={selectedPage}
                         onClick={handleLinkClick}
-                      />
-                              )}
+                      /> */}
                       {/* <NavItem
                         label="Override Configuration"
                         path="/dashboard/override-settings"

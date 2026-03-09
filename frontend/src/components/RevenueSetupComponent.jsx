@@ -11,7 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { backendUrl } from "./config";
 
 const RevenueSetupComponent = forwardRef(
-  ({ selectedPlan, revenueAccount, canEdit }, ref) => {
+  ({ selectedPlan, revenueAccount }, ref) => {
     const [atRiskValue, setAtRiskValue] = useState("");
     const [revenueType, setRevenueType] = useState("");
     const [revenueAccountState, setRevenueAccountState] = useState("");
@@ -424,7 +424,7 @@ const handleFeeRateChange = (value, setter) => {
             ))}
           </select>
         </div> */}
-          {canEdit("revenueDefinition") && <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-2">
             <label className="input-label">
               Revenue Formula :
             </label>
@@ -460,7 +460,7 @@ const handleFeeRateChange = (value, setter) => {
               {isSaving ? "Saving..." : "Save"}
             </button>
           </div>
-          </div>}
+          </div>
 
           <div className="flex items-center gap-2">
             <label className="input-label">
@@ -471,7 +471,7 @@ const handleFeeRateChange = (value, setter) => {
               className="text-sm font-normal"
               checked={overrideFundingCeilingFl}
               disabled={
-                selectedPlan?.status !== "In Progress" || !revenueFormula || !canEdit("revenueDefinition")
+                selectedPlan?.status !== "In Progress" || !revenueFormula
               }
               onChange={(e) => {
                 setOverrideFundingCeilingFl(e.target.checked);
@@ -488,7 +488,7 @@ const handleFeeRateChange = (value, setter) => {
               className="text-sm font-normal"
               checked={overrideSettingsFl}
               disabled={
-                selectedPlan?.status !== "In Progress" || !revenueFormula || !canEdit("revenueDefinition")
+                selectedPlan?.status !== "In Progress" || !revenueFormula
               }
               onChange={(e) => {
                 setOverrideSettingsFl(e.target.checked);

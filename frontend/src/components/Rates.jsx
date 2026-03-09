@@ -244,7 +244,7 @@ const monthsHeader = [
   "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
 ];
 
-const Rates = ({canEdit}) => {
+const Rates = () => {
   const [data, setData] = useState([]);
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [loading, setLoading] = useState(false);
@@ -486,9 +486,9 @@ const handleCalculation = async () => {
             </select>
           </div>
 
-          {canEdit("poolRateTabs") && <button onClick={handleCalculation} className="btn1 btn-blue">
+          <button onClick={handleCalculation} className="btn1 btn-blue">
             Calculate Rate
-          </button>}
+          </button>
         </div>
 
         <div className="flex items-center gap-1.5 bg-[#17414d] border border-blue-200 rounded-md px-2.5 py-1.5 shadow-sm text-xs">

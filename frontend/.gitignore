@@ -23,8 +23,3 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-
-.vs/
-obj/
-bin/
-node_modules/

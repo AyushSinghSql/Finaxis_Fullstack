@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 import { backendUrl } from "./config";
 
 const RevenueCeilingComponent = forwardRef(
-  ({ selectedPlan, revenueAccount, canEdit }, ref) => {
+  ({ selectedPlan, revenueAccount }, ref) => {
     const [periods, setPeriods] = useState([]);
     const [orgId, setOrgId] = useState("");
     const [acctId, setAcctId] = useState("");
@@ -546,7 +546,7 @@ const formatWithCommas = (val) => {
                   type="checkbox"
                   checked={useFixedRevenue}
                   disabled={
-                    !revDefData || selectedPlan?.status !== "In Progress" || !canEdit("adjustment")
+                    !revDefData || selectedPlan?.status !== "In Progress"
                   }
                   onChange={(e) =>
                     handleSetupCheckboxChange(
@@ -566,7 +566,7 @@ const formatWithCommas = (val) => {
                   type="checkbox"
                   checked={overrideAdjustments}
                   disabled={
-                    !revDefData || selectedPlan?.status !== "In Progress" || !canEdit("adjustment")
+                    !revDefData || selectedPlan?.status !== "In Progress"
                   }
                   onChange={(e) =>
                     handleSetupCheckboxChange(
@@ -579,7 +579,7 @@ const formatWithCommas = (val) => {
             </div>
 
             {/* RIGHT SIDE: Save Button */}
-            {canEdit("adjustment") && <div>
+            <div>
               <button
                 onClick={handleSaveAll}
                 disabled={
@@ -589,7 +589,7 @@ const formatWithCommas = (val) => {
               >
                 {isSaving ? "Saving..." : "Save"}
               </button>
-            </div>}
+            </div>
           </div>
 
           <div className="w-full max-h-[400px] overflow-x-auto overflow-y-auto border-line">
@@ -714,7 +714,6 @@ const formatWithCommas = (val) => {
                                   ? period.endDate.split("T")[0]
                                   : ""
                               }
-                              disabled={!canEdit("adjustment")}
                               onChange={(e) =>
                                 handleInputChange(
                                   index,
@@ -763,7 +762,7 @@ const formatWithCommas = (val) => {
   }}
                             disabled={
                               isRevAdjDisabled ||
-                              selectedPlan?.status != "In Progress" || !canEdit("adjustment")
+                              selectedPlan?.status != "In Progress"
                             }
                           />
                         </td>
@@ -812,7 +811,7 @@ const formatWithCommas = (val) => {
                             }}
                             disabled={
                               isOverRevAdjDisabled ||
-                              selectedPlan?.status != "In Progress" || !canEdit("adjustment")
+                              selectedPlan?.status != "In Progress"
                             }
                           />
                         </td>
@@ -889,7 +888,6 @@ const formatWithCommas = (val) => {
                                 e.target.value,
                               )
                             }
-                            disabled={!canEdit("adjustment")}
                             // disabled={!isNewRow}
                             // disabled={}
                           />

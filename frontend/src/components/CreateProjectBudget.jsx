@@ -23,7 +23,7 @@ const InputField = ({ label, value, onChange, type = "text" }) => (
   </div>
 );
 
-const CreateProjectBudget = ({canEdit}) => {
+const CreateProjectBudget = () => {
   const [availableProjects, setAvailableProjects] = useState([]);
   const [newBusiness, setNewBusiness] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -163,7 +163,7 @@ const CreateProjectBudget = ({canEdit}) => {
 
       <div className="bg-white rounded-sm p-4">
          <div className="w-full flex justify-end mb-2">
-          {canEdit("transferUtility") && <button
+          <button
             onClick={handleTransfer}
             disabled={!selectedBusiness || !selectedProject || loading}
             className="
@@ -175,7 +175,7 @@ const CreateProjectBudget = ({canEdit}) => {
   "
           >
             {loading ? "Transfering..." : "Transfer"}
-          </button>}
+          </button>
         </div>
         <div className="grid grid-cols-2 gap-10 mt-2">
           <div>

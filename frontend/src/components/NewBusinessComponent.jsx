@@ -5,7 +5,7 @@ import NewBusiness from "./NewBusiness";
 import { toast } from "react-toastify";
 import { BriefcaseBusiness, FolderKanban } from "lucide-react";
 
-const NewBusinessComponent = ({canEdit}) => {
+const NewBusinessComponent = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [showNewBusinessPopup, setShowNewBusinessPopup] = useState(false);
   const [editNewBusinessPopup, setEditNewBusinessPopup] = useState(false);
@@ -157,15 +157,11 @@ const NewBusinessComponent = ({canEdit}) => {
   };
 
   const handleEdit = (item) => {
-        if(!canEdit("manageNewBusiness")){
-      return
-    }
     setSelectedBusiness(item);
     setEditNewBusinessPopup(true);
   };
 
   const handleNewBusinessSave = async (savedData) => {
-
     handleSearch();
     setShowNewBusinessPopup(false);
     setEditNewBusinessPopup(false);
@@ -205,7 +201,7 @@ const NewBusinessComponent = ({canEdit}) => {
 
       <div className="space-y-4 sm:p-4 rounded p-2 bg-white mb-1">
         <div className="flex items-center mb-2 gap-1 w-full flex-nowrap">
-          {!editNewBusinessPopup && canEdit("manageNewBusiness") && (
+          {!editNewBusinessPopup && (
             <button
               onClick={() => setShowNewBusinessPopup(true)}
               className="btn1 btn-blue shrink-0"
@@ -220,7 +216,7 @@ const NewBusinessComponent = ({canEdit}) => {
               showDelete ? "inline" : "hidden"
             }`}
           >
-            {dataItem.length < 2 && canEdit("manageNewBusiness") && (
+            {dataItem.length < 2 && (
               <button
                 className="btn1 btn-blue mr-2"
                 title="Edit"
@@ -233,7 +229,7 @@ const NewBusinessComponent = ({canEdit}) => {
                 Edit
               </button>
             )}
-            {canEdit("manageNewBusiness") && <button
+            <button
               onClick={handleDelete}
               className="btn1 px-4 py-1.5 btn-red"
               title="Delete"
@@ -242,7 +238,7 @@ const NewBusinessComponent = ({canEdit}) => {
               }
             >
               {isDeleting ? "Deleting..." : `Delete (${selectedRows.size})`}
-            </button>}
+            </button>
           </div>
         </div>
 
@@ -337,13 +333,13 @@ const NewBusinessComponent = ({canEdit}) => {
             <table className="min-w-full table-auto divide-gray-200">
               <thead className="bg-gray-200 sticky top-0">
                 <tr>
-                 {canEdit("manageNewBusiness") && <th className="th-thead w-10">
+                  <th className="th-thead w-10">
                     <input
                       type="checkbox"
                       checked={isAllSelected}
                       onChange={toggleSelectAll}
                     />
-                  </th>}
+                  </th>
                   {columns.map((col) => (
                     <th
                       key={col}
@@ -396,7 +392,7 @@ const NewBusinessComponent = ({canEdit}) => {
                           : "bg-white"
                       }`}
                     >
-                      {canEdit("manageNewBusiness") && <td className="tbody-td-fun">
+                      <td className="tbody-td-fun">
                         <input
                           type="checkbox"
                           checked={selectedRows.has(item.businessBudgetId)}
@@ -419,7 +415,7 @@ const NewBusinessComponent = ({canEdit}) => {
                             );
                           }}
                         />
-                      </td>}
+                      </td>
 
                       {columns.map((col, idx) => (
                         <td

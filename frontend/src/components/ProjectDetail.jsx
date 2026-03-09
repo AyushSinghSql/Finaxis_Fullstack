@@ -18,9 +18,7 @@ const ProjectDetail = ({
   refreshPool,
   otherColumnTotals,
   hoursColumnTotals,
-  handleActionSelect,
-  canView,
-  canEdit
+  handleActionSelect
 }) => {
 
     const ACCOUNT_KEYS = [
@@ -505,7 +503,6 @@ if (!fiscalYear || fiscalYear === "All") {
 
   return (
     <div className="w-full mx-auto grid md:grid-cols-1">
-
     <div className="flex items-center gap-2">
                 {selectedPlan &&
                   (selectedPlan.status === "Approved" ||
@@ -533,9 +530,6 @@ if (!fiscalYear || fiscalYear === "All") {
                   )}
                 <div className="flex items-center justify-between w-full">
                 <div className="flex gap-2 items-center">
-
-                  {(canView("BUD/EAC") || canView("otherCost")) && 
-                  <>
                   <button
                     onClick={() => fileInputRef.current.click()}
                     disabled={isLoading || isImporting}
@@ -597,10 +591,8 @@ if (!fiscalYear || fiscalYear === "All") {
                     </svg>
                    {isExporting ? 'Exporting':'Export'}
                   </button>
-                  </>
-               }
  
-                  {canView("indirectCost") && (
+                  {currentUserRole === "admin" && (
                     <>
                       <button
                         onClick={handleCalc}
@@ -613,8 +605,6 @@ if (!fiscalYear || fiscalYear === "All") {
                     </>
                   )}
                 </div>
-                
-                {(canView("BUD/EAC") || canView("otherCost") ) && (
                 <div>
                   <div className="flex flex-1 justify-end p-1">
                     <button
@@ -627,24 +617,19 @@ if (!fiscalYear || fiscalYear === "All") {
                     </button>
                   </div>
                 </div>
-)}
                 </div>
               </div>
 
       {/* HOURS CARD */}
-                    {canView("BUD/EAC") && (
       <div className="border mb-2 border-gray-200 rounded-md shadow-sm bg-white">
         <div className="px-2 pb-2">
-
           <ProjectHoursDetails
             activeTab={activeTab}
             ref={projectHoursRef}
             planId={selectedPlan.plId}
-            canView={canView}
-            canEdit={canEdit}
             projectId={selectedPlan.projId}
             templateId={selectedPlan.templateId}
-            refreshKey={calculation}
+              refreshKey={calculation}
             status={selectedPlan.status}
             planType={selectedPlan.plType}
             closedPeriod={selectedPlan.closedPeriod}
@@ -658,7 +643,6 @@ if (!fiscalYear || fiscalYear === "All") {
             initialData={selectedPlan}
             allOrgData={allOrgData}
             isClosedPeriodEditable={isClosedPeriodEditable}
-            // allowedPercentage={allowedPercentage}
             allForcastData={allForcastData}
             isDurationhrLoading={isDurationLoading}
             setIsDurationhrLoading={setIsDurationLoading}
@@ -667,12 +651,9 @@ if (!fiscalYear || fiscalYear === "All") {
             />
         </div>
       </div>
-        )}
 
       {/* OTHER COST CARD */}
-                    {/* {canView("otherCost") && ( */}
       <div className="border mb-2 border-gray-200 rounded-md shadow-sm bg-white">
-
         <div className="px-2 pb-2">
           <ProjectAmountsTable
             activeTab={activeTab}
@@ -687,7 +668,7 @@ if (!fiscalYear || fiscalYear === "All") {
             refreshKey={refreshKey}
             setRefreshPool={setRefreshPool}
             onSaveSuccess={() =>
-              setRefreshKey((prev) => prev + 1)
+                setRefreshKey((prev) => prev + 1)
             }
             onColumnTotalsChange={onColumnAmtTotalsChange}
             allOrgData={allOrgData}
@@ -697,16 +678,13 @@ if (!fiscalYear || fiscalYear === "All") {
             setIsDataLoading={setIsDataLoading}
             durations={durations}
             groupCd={selectedPlan.acctGrpCd}
-            />
+          />
         </div>
       </div>
-        {/* )} */}
 
       {/* POOL COST (ADMIN ONLY) */}
-      
-                    {/* {canView("indirectCost") && ( */}
+      {currentUserRole === "admin" && (
         <div className="border border-gray-200 rounded-md shadow-sm bg-white">
-
           <div className="px-2 pb-2">
             <ProjectPoolCosts
               refreshKey={refreshPool}
@@ -721,10 +699,10 @@ if (!fiscalYear || fiscalYear === "All") {
               allForcastData={allForcastData}
               loadingPools={loadingPools}
               groupCd={selectedPlan.acctGrpCd}
-              />
+            />
           </div>
-          </div>
-        {/* )} */}
+        </div>
+      )}
     </div>
   );
 };

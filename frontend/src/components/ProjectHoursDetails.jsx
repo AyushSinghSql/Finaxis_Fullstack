@@ -138,8 +138,6 @@ const ProjectHoursDetails = forwardRef(
       setIsDurationhrLoading,
       isDurationhrLoading,
       groupCd,
-      canView,
-      canEdit
     },
     ref,
   ) => {
@@ -3759,8 +3757,7 @@ console.log(editedEmployeeData)
             emp.emple.isRev ? "✓" : "-",
             emp.emple.isBrd ? "✓" : "-",
             employeeRow.status,
-            // employeeRow.perHourRate,
-            ...(canView("perHouRate") ? [employeeRow.perHourRate] : []),
+            employeeRow.perHourRate,
             emp.emple.effectiveDate,
             emp.emple.esc_Percent,
             employeeRow.total,
@@ -5865,7 +5862,7 @@ console.log(editedEmployeeData)
 
     const visibleEmployeeColumns = EMPLOYEE_COLUMNS.filter((col) => {
       // skip Hour Rate if no access
-      if (col.key === "perHourRate" && !(canView("perHourRate"))) {
+      if (col.key === "perHourRate" && !(currentUser.role === "admin")) {
         return false;
       }
 
@@ -5933,7 +5930,7 @@ console.log(editedEmployeeData)
    const handleSaveAll = async () => {
       const hasHoursChanges = Object.keys(modifiedHours).length > 0;
       const hasEmployeeChanges = Object.keys(editedEmployeeData).length > 0;
-
+ 
       if (!hasHoursChanges && !hasEmployeeChanges) {
         return true;
       }
@@ -12391,7 +12388,7 @@ else if (hasHoursChanges) {
                             {/* <td className="tbody-td">
           <input type="text" value={entry.perHourRate} onChange={(e) => setNewEntries((prev) => prev.map((ent, idx) => (idx === entryIndex ? { ...ent, perHourRate: e.target.value.replace(/[^0-9.]/g, "") } : ent)))} className="w-full border border-gray-300 rounded px-1 py-0.5 text-xs" />
         </td> */}
-                            {canView("perHourRate") && (
+                            {currentUser.role === "admin" && (
                               <td className="tbody-td">
                                 <input
                                   type="text"
@@ -12414,7 +12411,6 @@ else if (hasHoursChanges) {
                                   }
                                   className="w-full border border-gray-300 rounded px-1 py-0.5 text-xs"
                                   placeholder="0.00"
-                                  disabled={!canEdit("perHourRate")}
                                   // maxLength={4}
                                 />
                               </td>
@@ -12913,7 +12909,7 @@ else if (hasHoursChanges) {
             <span className="text-gray-400 cursor-not-allowed">**</span>
           )}
         </td> */}
-                            {canView("perHourRate") && (
+                            {currentUser.role === "admin" && (
                               <td className="tbody-td min-w-[70px]">
                                 <input
                                   // CHANGE: Type is text for Admin, password for others
@@ -12953,7 +12949,7 @@ else if (hasHoursChanges) {
                                     (emp.emple.type === "Employee" ||
                                       emp.emple.type === "Vendor Employee" ||
                                       emp.emple.type === "VendorEmployee" ||
-                                      emp.emple.type === "Vendor")  || !canEdit("perHourRate")
+                                      emp.emple.type === "Vendor")
                                   }
                                   // maxLength={4}
                                 />
@@ -13154,12 +13150,12 @@ else if (hasHoursChanges) {
                         return (
                           <th
                             key={uniqueKey}
-                            className={`th-thead ${canView("cost") ? "border-r" : ""} text-black border-b border-gray-300 min-w-[166px] p-0 ${
+                            className={`th-thead ${currentUser.role === "admin" ? "border-r" : ""} text-black border-b border-gray-300 min-w-[166px] p-0 ${
                               selectedColumnKey === uniqueKey
                                 ? "bg-yellow-100"
                                 : ""
                             }`}
-                            colSpan={canView("cost") ? 2 : 1}
+                            colSpan={currentUser.role === "admin" ? 2 : 1}
                             onClick={() => handleColumnHeaderClick(uniqueKey)}
                           >
                             {/* <div className="flex flex-col h-full w-full"> */}
@@ -13202,7 +13198,7 @@ else if (hasHoursChanges) {
                                 {duration.workingHours || 0}Hrs
                               </span>
                             </th>
-                            {canView("cost") && (
+                            {currentUser.role === "admin" && (
                               <th className="th-thead border-r border-gray-300 min-w-[80px] p-0  ">
                                 <span className="text-center  font-medium">
                                   Cost
@@ -13389,7 +13385,7 @@ else if (hasHoursChanges) {
                                   {/* </div> */}
                                 </td>
 
-                                {canView("cost") && (
+                                {currentUser.role === "admin" && (
                                   <td
                                     className={`tbody-td border-r  text-centerborder-gray-300 py-1 ${
                                       selectedColumnKey === uniqueKey
@@ -13562,12 +13558,12 @@ else if (hasHoursChanges) {
                                     {/* </div> */}
                                   </td>
 
-                                  {canView("cost") && (
+                                  {currentUser.role === "admin" && (
                                     <td
                                       key={`cost-${uniqueKey}`}
                                       className="tbody-td border-r border-gray-300"
                                     >
-                                      {canView("cost") && (
+                                      {currentUser.role === "admin" && (
                                         <input
                                           type="text"
                                           className="border border-gray-300 text-center w-16 bg-gray-100 text-gray-500 px-1 py-0.5 text-xs outline-none  
@@ -13800,7 +13796,7 @@ else if (hasHoursChanges) {
                             </td>
 
                             {/* LABOR COST COLUMN */}
-                            {canView("cost") && (
+                            {currentUser.role === "admin" && (
                               <td className="tbody-td text-xs border-r border-gray-300 font-bold px-2 text-center">
                                 <span className="text-black">
                                   {laborCost.toLocaleString(undefined, {
@@ -14690,3 +14686,4 @@ else if (hasHoursChanges) {
 );
 
 export default ProjectHoursDetails;
+
