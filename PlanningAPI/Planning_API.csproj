@@ -56,29 +56,13 @@
         <PackageReference Include="Swashbuckle.AspNetCore" Version="8.1.1" />
         <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.12.0" />
     </ItemGroup>
-   <Target Name="CopyFrontendBuild" AfterTargets="Production">
-
-  <!-- Install frontend dependencies -->
-  <Exec Command="npm install" WorkingDirectory="../frontend" />
-
-  <!-- Build Vite app -->
-  <Exec Command="npm run build" WorkingDirectory="../frontend" />
-
-  <!-- Clean old files -->
-  <RemoveDir Directories="wwwroot" />
-
-  <!-- Create fresh folder -->
-  <MakeDir Directories="wwwroot" />
-
-  <!-- Include Vite build files -->
-  <ItemGroup>
-    <FrontendFiles Include="../frontend/dist/**" />
-  </ItemGroup>
-
-  <!-- Copy files to wwwroot -->
-  <Copy
-    SourceFiles="@(FrontendFiles)"
-    DestinationFolder="wwwroot/%(RecursiveDir)" />
-
-</Target>
+	<Target Name="CopyReactBuild" AfterTargets="Build">
+		<Exec Command="npm install" WorkingDirectory="../frontend" />
+		<Exec Command="npm run build" WorkingDirectory="../frontend" />
+		<ItemGroup>
+			<ReactBuildFiles Include="../frontend/dist/**" />
+		</ItemGroup>
+		<Copy SourceFiles="@(ReactBuildFiles)"
+				DestinationFolder="wwwroot/%(RecursiveDir)" />
+	</Target>
 </Project>
