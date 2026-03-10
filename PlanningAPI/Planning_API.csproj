@@ -56,7 +56,7 @@
         <PackageReference Include="Swashbuckle.AspNetCore" Version="8.1.1" />
         <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.12.0" />
     </ItemGroup>
-	<Target Name="CopyReactBuild" AfterTargets="Build">
+	<Target Name="CopyReactBuild" AfterTargets="Production">
 		<Exec Command="npm install" WorkingDirectory="../frontend" />
 		<Exec Command="npm run build" WorkingDirectory="../frontend" />
 		<ItemGroup>
