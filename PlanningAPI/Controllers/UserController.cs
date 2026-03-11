@@ -7,7 +7,6 @@ using static PlanningAPI.DTO.UserMappingExtensions;
 
 namespace PlanningAPI.Controllers
 {
-    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class UserController : ControllerBase
