@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PlanningAPI.Models;
 using WebApi.Repositories;
@@ -6,6 +7,7 @@ using WebApi.Repositories;
 namespace PlanningAPI.Controllers
 {
 
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class ProjBgtRevSetupController : ControllerBase

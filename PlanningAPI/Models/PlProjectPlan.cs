@@ -73,7 +73,7 @@ public partial class PlProjectPlan
     public string? RevenueAccount { get; set; } = null!;
     [NotMapped]
 
-    public decimal? Revenue { get; set; } = null!;
+    public decimal? Revenue { get; set; } = null;
     [NotMapped]
     public string? ProjectStatus { get; set; } = null!;
 

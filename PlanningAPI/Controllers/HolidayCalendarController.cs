@@ -1,7 +1,9 @@
 ﻿using System.Runtime.CompilerServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PlanningAPI.Models;
 
+[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class HolidayCalendarController : ControllerBase

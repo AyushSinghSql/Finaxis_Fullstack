@@ -7,7 +7,7 @@ using System;
 namespace PlanningAPI.Controllers
 {
 
-
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class ChartOfAccountsController : ControllerBase

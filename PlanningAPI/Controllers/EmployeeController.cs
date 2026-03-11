@@ -1,5 +1,6 @@
 ﻿namespace WebApi.Controllers;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ModelContextProtocol.Protocol;
@@ -10,6 +11,7 @@ using WebApi.Models.Users;
 using WebApi.Repositories;
 using WebApi.Services;
 
+[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class EmployeeController : ControllerBase

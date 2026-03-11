@@ -1,9 +1,11 @@
-﻿using QuestPDF.Fluent;
+﻿using Microsoft.AspNetCore.Authorization;
+using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 using System.Globalization;
 using WebApi.DTO;
 
+[Authorize]
 public class RevenueAnalysisReport : IDocument
 {
     private readonly PlanForecastSummary _data;

@@ -1,6 +1,7 @@
 ﻿using Amazon.Runtime;
 using Amazon.S3;
 using ExcelDataReader;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
@@ -16,6 +17,7 @@ using WebApi.Services;
 
 namespace PlanningAPI.Controllers
 {
+    [Authorize]
     public class ImportMasterDataController : ControllerBase
     {
 

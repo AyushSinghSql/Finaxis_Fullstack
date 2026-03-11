@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PlanningAPI.Models;
@@ -6,6 +7,7 @@ using PlanningAPI.Repositories;
 using System;
 using System.Threading.Tasks;
 
+[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class ProjEmplRtController : ControllerBase

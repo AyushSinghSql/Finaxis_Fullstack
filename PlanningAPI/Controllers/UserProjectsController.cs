@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NPOI.OpenXmlFormats.Spreadsheet;
 using PlanningAPI.Models;
@@ -7,6 +8,7 @@ using WebApi.Entities;
 
 namespace PlanningAPI.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/user-projects")]
     public class UserProjectsController : ControllerBase

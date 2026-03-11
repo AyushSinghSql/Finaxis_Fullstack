@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PlanningAPI.Models;
 using System;
 
 namespace PlanningAPI.Controllers
 {
-
-
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class AnalgsRtController : ControllerBase

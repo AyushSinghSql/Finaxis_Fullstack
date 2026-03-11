@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PlanningAPI.Models;
 using WebApi.Controllers;
@@ -6,6 +7,7 @@ using WebApi.Services;
 
 namespace PlanningAPI.Controllers
 {
+    [Authorize]
     public class NewBusinessController : ControllerBase
     {
 
@@ -20,6 +22,7 @@ namespace PlanningAPI.Controllers
             _service = new NewBusinessService(_context);
             _projPlanService = projPlanService;
         }
+
 
         [HttpGet("GetAllNewBusiness")]
         public async Task<IActionResult> GetAllNewBusiness()

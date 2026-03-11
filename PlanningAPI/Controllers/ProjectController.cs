@@ -27,6 +27,7 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using static NPOI.HSSF.Util.HSSFColor;
 
 
+[Authorize]
 [ApiController]
 //[Authorize]
 [Route("[controller]")]

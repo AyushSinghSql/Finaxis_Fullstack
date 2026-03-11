@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PlanningAPI.DTO;
 using PlanningAPI.Repositories;
@@ -6,6 +7,7 @@ using static PlanningAPI.DTO.UserMappingExtensions;
 
 namespace PlanningAPI.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class UserController : ControllerBase

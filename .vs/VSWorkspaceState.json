@@ -2,9 +2,8 @@
   "ExpandedNodes": [
     "",
     "\\frontend",
-    "\\frontend\\src\\components",
     "\\PlanningAPI"
   ],
-  "SelectedNode": "\\PlanningAPI\\Planning_API.csproj",
+  "SelectedNode": "\\PlanningAPI\\Program.cs",
   "PreviewInSolutionExplorer": false
 }

@@ -1,5 +1,6 @@
 ﻿namespace WebApi.Controllers;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -35,6 +36,7 @@ using WebApi.Services;
 using static NPOI.HSSF.Util.HSSFColor;
 using static QuestPDF.Helpers.Colors;
 
+[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class ForecastController : ControllerBase

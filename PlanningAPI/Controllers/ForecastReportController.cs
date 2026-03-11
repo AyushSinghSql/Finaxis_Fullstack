@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
 using PlanningAPI.Models;
@@ -11,7 +12,7 @@ using WebApi.Helpers;
 namespace PlanningAPI.Controllers
 {
 
-
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class ForecastReportController : ControllerBase
